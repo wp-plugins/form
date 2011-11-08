@@ -1,0 +1,22 @@
+#form {
+	position:relative;
+	float:left;
+	width:100%;
+}
+
+.currentDayBoxStyle {
+	font-size: smaller;
+	background-color: #DDCAF6;
+	text-align: center;
+}
+
+.dayBoxStyle {
+	font-size: smaller;
+	text-align: center;
+}
+
+.dayNamesStyle {
+	font-size: smaller;
+	text-align: center;
+	background-color: #F0F0F0;
+}
