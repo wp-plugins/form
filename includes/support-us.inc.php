@@ -1,7 +1,7 @@
 <?php 
 //v1.09.15
 if (!function_exists('zing_support_us')) {
-	function zing_support_us($shareName,$wpPluginName,$adminLink,$version) {
+	function zing_support_us($shareName,$wpPluginName,$adminLink,$version,$donate=true) {
 ?>
 		<div style="width:20%;float:right;position:relative">
 			<div class="cc-support-us">
@@ -27,7 +27,7 @@ if (!function_exists('zing_support_us')) {
 				} elseif (isset($_REQUEST['support-us']) && $_REQUEST['support-us'] == 'hide') {
 					update_option($option,time()+7776000);
 				} else {
-					if ((time() - get_option($option)) > 1209600) { //14 days 
+					if ($donate && (time() - get_option($option)) > 1209600) { //14 days 
 						echo "<div id='zing-warning' style='background-color:red;color:white;font-size:large;margin:20px;padding:10px;'>Looks like you've been using this plugin for quite a while now. Have you thought about showing your appreciation through a small donation?<br /><br /><a href='http://www.zingiri.net/donations'><img src='https://www.paypal.com/en_GB/i/btn/btn_donate_LG.gif' /></a><br /><br />If you already made a donation, you can <a href='?page=".$adminLink."&support-us=hide'>hide</a> this message.</div>";
 					}
 				}

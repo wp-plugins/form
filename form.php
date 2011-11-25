@@ -4,11 +4,11 @@
  Plugin URI: http://www.zingiri.net
  Description: Create amazing web forms with ease.
  Author: Zingiri
- Version: 1.0.1
+ Version: 1.0.2
  Author URI: http://www.zingiri.net/
  */
 
-define("FORM_VERSION","1.0.1");
+define("FORM_VERSION","1.0.2");
 
 // Pre-2.6 compatibility for wp-content folder location
 if (!defined("WP_CONTENT_URL")) {
@@ -33,7 +33,7 @@ define("FORM_URL", WP_CONTENT_URL . "/plugins/".FORM_PLUGIN."/");
 
 $form_version=get_option("form_version");
 add_action("init","form_init");
-if (isset($_GET['ajax']) && ($_GET['ajax'] == 1)) {
+if (!is_admin() && isset($_GET['ajax']) && ($_GET['ajax'] == 1)) {
 	add_action("init","form_ajax");
 } else {
 	add_action('admin_head','form_admin_header');
@@ -139,6 +139,7 @@ function form_output($form_to_include='',$postVars=array()) {
 	form_log('Notification','Call: '.$http);
 	//echo '<br />'.$http.'<br />';
 	$news = new zHttpRequest($http,'form');
+	$news->noErrors=true;
 	$news->post=array_merge($news->post,$postVars);
 
 	if (!$news->curlInstalled()) {
@@ -151,45 +152,55 @@ function form_output($form_to_include='',$postVars=array()) {
 		if ($ajax==1) {
 			ob_end_clean();
 			$buffer=$news->DownloadToString();
-			$form['output']=json_decode($buffer,true);
-			if (!$form['output']) {
-				$form['output']['body']=$buffer;
-				$form['output']['head']='';
+			if ($news->error && is_admin()) echo $news->errorMessage;
+			elseif ($news->error) echo 'The service is currently unavailable';
+			else {
+				$form['output']=json_decode($buffer,true);
+				if (!$form['output']) {
+					$form['output']['body']=$buffer;
+					$form['output']['head']='';
+				}
+				//$body=form_parser_ajax1($form['output']['body']);
+				echo $form['output']['body'];
 			}
-			//$body=form_parser_ajax1($form['output']['body']);
-			echo $form['output']['body'];
 			die();
 		} elseif ($ajax==2) {
 			ob_end_clean();
 			$output=$news->DownloadToString();
-			$body=$news->body;
-			$body=form_parser_ajax2($body);
-			header('HTTP/1.1 200 OK');
-			echo $body;
-			//echo 'it is ajax 2';
+			if ($news->error && is_admin()) echo $news->errorMessage;
+			elseif ($news->error) echo 'The service is currently unavailable';
+			else {
+				$body=$news->body;
+				$body=form_parser_ajax2($body);
+				header('HTTP/1.1 200 OK');
+				echo $body;
+			}
 			die();
 		} else {
 			$buffer=$news->DownloadToString();
-			//print_r($buffer);
-			$form['output']=json_decode($buffer,true);
-			if (!$form['output']) {
-				$form['output']['body']=$buffer;
-				$form['output']['head']='';
-			} else {
-				if (isset($form['output']['http_referer'])) $_SESSION['form']['http_referer']=$form['output']['http_referer'];
+			if ($news->error && is_admin()) echo $news->errorMessage;
+			elseif ($news->error) echo 'The service is currently unavailable';
+			else {
+				$form['output']=json_decode($buffer,true);
+				if (!$form['output']) {
+					$form['output']['body']=$buffer;
+					$form['output']['head']='';
+				} else {
+					if (isset($form['output']['http_referer'])) $_SESSION['form']['http_referer']=$form['output']['http_referer'];
+				}
 			}
 		}
 	}
 }
 
 function form_header() {
-	global $form;
-
 	echo '<script type="text/javascript">';
 	echo "var formPageurl='".form_home()."';";
+	echo "var aphpsAjaxURL='".'?zf=ajax&ajax=1&form='."';";
+	echo "var aphpsURL='".form_url(false).'aphps/fwkfor/'."';";
+	echo "var wsCms='gn';";
 	echo '</script>';
 
-	//if (isset($form['output']['head'])) echo $form['output']['head'];
 	echo '<link rel="stylesheet" type="text/css" href="' . FORM_URL . 'css/client.css" media="screen" />';
 	echo '<link rel="stylesheet" type="text/css" href="' . FORM_URL . 'css/integrated_view.css" media="screen" />';
 
@@ -199,6 +210,9 @@ function form_admin_header() {
 	global $form;
 	echo '<script type="text/javascript">';
 	echo "var formPageurl='admin.php?page=form&';";
+	echo "var aphpsAjaxURL='".'?zf=ajax&ajax=1&form='."';";
+	echo "var aphpsURL='".form_url(false).'aphps/fwkfor/'."';";
+	echo "var wsCms='gn';";
 	echo '</script>';
 	echo '<link rel="stylesheet" type="text/css" href="' . FORM_URL . 'css/admin.css" media="screen" />';
 	if (isset($form['output']['head']) && $form['output']['head']) {
@@ -274,9 +288,10 @@ function form_home() {
 
 function form_ajax() {
 	global $form;
-	echo '<head>'.$form['output']['head'].'</head>';
-	echo '<body>'.$form['output']['body'].'</body>';
-	die();
+	if (is_admin() && isset($_GET['zf'])) {
+		$pg=$_GET['zf'];
+		form_output($pg);
+	}
 }
 
 function form_init()
@@ -291,7 +306,7 @@ function form_init()
 			wp_enqueue_script('scriptaculous');
 		}
 	}
-
+	wp_enqueue_script('jquery');
 }
 
 function form_log($type=0,$msg='',$filename="",$linenum=0) {
@@ -304,8 +319,10 @@ function form_log($type=0,$msg='',$filename="",$linenum=0) {
 	}
 }
 
-function form_url() {
-	$url='http://form.clientcentral.info/api.php';
+function form_url($endpoint=true) {
+	$url='http://form.clientcentral.info/';
+	if ($endpoint) $url.='api.php';
 	return $url;
 }
+
 

@@ -66,7 +66,7 @@ function form_main() {
 	if (isset($form['output']['body'])) echo $form['output']['body'];
 	echo '</div>';
 	require(dirname(__FILE__).'/includes/support-us.inc.php');
-	zing_support_us('form','form','form',FORM_VERSION);
+	zing_support_us('form','form','form',FORM_VERSION,false);
 	echo '</div>';
 }
 
@@ -114,6 +114,6 @@ If you need help, please check out our forums at <a href="http://forums.zingiri.
 </div>
 <!-- end cc-left --> <?php
 require(dirname(__FILE__).'/includes/support-us.inc.php');
-zing_support_us('form','form','form',FORM_VERSION);
+zing_support_us('form','form','form',FORM_VERSION,false);
 }
 add_action('admin_menu', 'form_add_admin'); ?>

@@ -33,7 +33,7 @@ if (!class_exists('zHttpRequest')) {
 		var $_port;        // port
 		var $_path;
 		var $params;
-		var $error;
+		var $error=false;
 		var $errno=false;
 		var $post=array();	//post variables, defaults to $_POST
 		var $redirect=false;
@@ -44,7 +44,9 @@ if (!class_exists('zHttpRequest')) {
 		var $repost=false;
 		var $type; //content-type
 		var $follow=true; //whether to follow redirect links or not
-
+		var $noErrors=false; //whether to trigger an error in case of a curl error
+		var $errorMessage;
+		
 		// constructor
 		function __construct($url="",$sid='', $repost=false)
 		{
@@ -183,12 +185,16 @@ if (!class_exists('zHttpRequest')) {
 
 		//error logging
 		function error($msg) {
-			trigger_error($msg,E_USER_WARNING);
+			$this->errorMsg=$msg;
+			$this->error=true;
+			if (!$this->noErrors) trigger_error($msg,E_USER_WARNING);
 		}
 
 		//notification logging
 		function notify($msg) {
-			trigger_error($msg,E_USER_NOTICE);
+			$this->errorMsg=$msg;
+			$this->error=true;
+			if (!$this->noErrors) trigger_error($msg,E_USER_NOTICE);
 		}
 
 		// download URL to string
@@ -322,14 +328,11 @@ if (!class_exists('zHttpRequest')) {
 				$headers=$head['headers'];
 				$cookies=$head['cookies'];
 			} else {
-				if ( $curl_error = curl_error($ch) )
-				return new WP_Error('http_request_failed', $curl_error);
-				if ( in_array( curl_getinfo( $ch, CURLINFO_HTTP_CODE ), array(301, 302) ) )
-				return new WP_Error('http_request_failed', __('Too many redirects.'));
-
 				$headers=array();
 				$cookies='';
 				$body = '';
+				$this->error('An undefined error occured');
+				return false;
 			}
 
 			if ($cookies) {
@@ -374,7 +377,8 @@ if (!class_exists('zHttpRequest')) {
 						return $this->connect($redir,$withHeaders,$withCookies);
 					}
 				} else {
-					trigger_error('ERROR: Too many redirects '.$url.' > '.$headers['location'],E_USER_ERROR);
+					$this->error('ERROR: Too many redirects '.$url.' > '.$headers['location'],E_USER_ERROR);
+					return false;
 				}
 			}
 			return $body;
