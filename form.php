@@ -4,11 +4,11 @@
  Plugin URI: http://www.zingiri.net
  Description: Create amazing web forms with ease.
  Author: Zingiri
- Version: 1.0.2
+ Version: 1.0.3
  Author URI: http://www.zingiri.net/
  */
 
-define("FORM_VERSION","1.0.2");
+define("FORM_VERSION","1.0.3");
 
 // Pre-2.6 compatibility for wp-content folder location
 if (!defined("WP_CONTENT_URL")) {
@@ -220,6 +220,8 @@ function form_admin_header() {
 	} else {
 		echo '<link rel="stylesheet" type="text/css" href="' . FORM_URL . 'css/integrated_view.css" media="screen" />';
 	}
+	wp_tiny_mce( false, array( 'editor_selector' => 'theEditor' ) );
+
 }
 function form_http($page="index") {
 	global $current_user;
@@ -305,6 +307,8 @@ function form_init()
 			wp_enqueue_script('prototype');
 			wp_enqueue_script('scriptaculous');
 		}
+		wp_enqueue_script(array('editor', 'thickbox', 'media-upload'));
+		wp_enqueue_style('thickbox');
 	}
 	wp_enqueue_script('jquery');
 }
