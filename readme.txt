@@ -33,6 +33,7 @@ Screenshots will be coming soon [here](http://www.zingiri.net/plugins-and-addons
 == Changelog ==
 
 = 1.0.4 =
+* Added jQuery UI library
 * Added styling for date picker
 
 = 1.0.3 =
