@@ -4,7 +4,7 @@ Donate link: http://www.zingiri.net/donations
 Tags: form, forms
 Requires at least: 2.1.7
 Tested up to: 3.2.1
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 
 Create amazing web forms with ease. No scripts, no HTML, no coding. Just drag-and-drop the form elements to create your professional looking form.
 
@@ -31,6 +31,9 @@ Please visit the [Zingiri Support Forums](http://forums.zingiri.net/forumdisplay
 Screenshots will be coming soon [here](http://www.zingiri.net/plugins-and-addons/form/ "screenshots").
 
 == Changelog ==
+
+= 1.0.4 =
+* Added styling for date picker
 
 = 1.0.3 =
 * Fixed issue with html area and captcha elements

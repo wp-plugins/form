@@ -1,5 +1,5 @@
 <?php
-//v1.10.02
+//v2.01.08
 //removed cc_whmcs_log call
 //need wpabspath for mailz
 //mailz returns full URL in case of redirection!!
@@ -22,6 +22,8 @@
 //fixed redirect link parsing issue
 //fixed issue with redirect urls duplicating url path
 //added http return code
+//improvide error management
+
 if (!class_exists('zHttpRequest')) {
 	class zHttpRequest
 	{

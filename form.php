@@ -4,11 +4,11 @@
  Plugin URI: http://www.zingiri.net
  Description: Create amazing web forms with ease.
  Author: Zingiri
- Version: 1.0.3
+ Version: 1.0.4
  Author URI: http://www.zingiri.net/
  */
 
-define("FORM_VERSION","1.0.3");
+define("FORM_VERSION","1.0.4");
 
 // Pre-2.6 compatibility for wp-content folder location
 if (!defined("WP_CONTENT_URL")) {
@@ -203,7 +203,8 @@ function form_header() {
 
 	echo '<link rel="stylesheet" type="text/css" href="' . FORM_URL . 'css/client.css" media="screen" />';
 	echo '<link rel="stylesheet" type="text/css" href="' . FORM_URL . 'css/integrated_view.css" media="screen" />';
-
+	echo '<script type="text/javascript" src="' . FORM_URL . 'js/jquery-ui-1.7.3.custom.min.js"></script>';
+	
 }
 
 function form_admin_header() {
@@ -221,6 +222,7 @@ function form_admin_header() {
 		echo '<link rel="stylesheet" type="text/css" href="' . FORM_URL . 'css/integrated_view.css" media="screen" />';
 	}
 	wp_tiny_mce( false, array( 'editor_selector' => 'theEditor' ) );
+	echo '<script type="text/javascript" src="' . FORM_URL . 'js/jquery-ui-1.7.3.custom.min.js"></script>';
 
 }
 function form_http($page="index") {
@@ -245,8 +247,8 @@ function form_http($page="index") {
 	if (is_user_logged_in()) {
 		$wp['login']=$current_user->data->user_login;
 		$wp['email']=$current_user->data->user_email;
-		$wp['first_name']=$current_user->data->first_name ? $current_user->data->first_name: $current_user->data->display_name;
-		$wp['last_name']=$current_user->data->last_name ? $current_user->data->last_name : $current_user->data->display_name;
+		$wp['first_name']=isset($current_user->data->first_name) ? $current_user->data->first_name: $current_user->data->display_name;
+		$wp['last_name']=isset($current_user->data->last_name) ? $current_user->data->last_name : $current_user->data->display_name;
 		$wp['roles']=$current_user->roles;
 	}
 	$wp['lic']=get_option('form_lic');
