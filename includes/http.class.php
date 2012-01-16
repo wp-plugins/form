@@ -48,7 +48,7 @@ if (!class_exists('zHttpRequest')) {
 		var $follow=true; //whether to follow redirect links or not
 		var $noErrors=false; //whether to trigger an error in case of a curl error
 		var $errorMessage;
-		
+
 		// constructor
 		function __construct($url="",$sid='', $repost=false)
 		{
@@ -217,7 +217,7 @@ if (!class_exists('zHttpRequest')) {
 			if ($withHeaders) curl_setopt($ch, CURLOPT_HEADER, 1);
 
 			curl_setopt($ch, CURLOPT_HTTPHEADER, array('Expect:')); //avoid 417 errors
-			
+				
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER,1); // return into a variable
 			curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
 			curl_setopt($ch, CURLOPT_TIMEOUT, 60); // times out after 10s
@@ -309,7 +309,7 @@ if (!class_exists('zHttpRequest')) {
 				$this->httpCode=curl_getinfo($ch,CURLINFO_HTTP_CODE);
 				if (($this->errno==22) && ($this->httpCode=='404')) {
 					$this->notify('HTTP Error:'.$this->errno.'/'.$this->error.' at '.$this->_url);
-					return false;					
+					return false;
 				}
 				else {
 					$this->error('HTTP Error:'.$this->errno.'/'.$this->error.' at '.$this->_url);
@@ -363,7 +363,7 @@ if (!class_exists('zHttpRequest')) {
 				//echo '<br />redirect to:'.print_r($headers,true);
 				//echo '<br />path='.$this->_path;
 				$redir=$headers['location'];
-				if (strstr($redir,$this->_protocol.'://'.$this->_host.$this->_path)) { //do nothing 
+				if (strstr($redir,$this->_protocol.'://'.$this->_host.$this->_path)) { //do nothing
 				}
 				elseif (strstr($this->_protocol.'://'.$this->_host.$redir,$this->_protocol.'://'.$this->_host.$this->_path)) $redir=$this->_protocol.'://'.$this->_host.$redir;
 				elseif (!strstr($redir,$this->_host)) $redir=$this->_protocol.'://'.$this->_host.$this->_path.$redir;

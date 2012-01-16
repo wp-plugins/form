@@ -4,11 +4,11 @@
  Plugin URI: http://www.zingiri.net
  Description: Create amazing web forms with ease.
  Author: Zingiri
- Version: 1.0.4
+ Version: 1.1.0
  Author URI: http://www.zingiri.net/
  */
 
-define("FORM_VERSION","1.0.4");
+define("FORM_VERSION","1.1.0");
 
 // Pre-2.6 compatibility for wp-content folder location
 if (!defined("WP_CONTENT_URL")) {
@@ -188,9 +188,30 @@ function form_output($form_to_include='',$postVars=array()) {
 				} else {
 					if (isset($form['output']['http_referer'])) $_SESSION['form']['http_referer']=$form['output']['http_referer'];
 				}
+				$form['output']['body']=form_parser($form['output']['body']);
 			}
 		}
 	}
+}
+
+
+if (!class_exists('simple_html_dom')) require(dirname(__FILE__).'/includes/simple_html_dom.php');
+function form_parser($buffer) {
+	global $wp_version;
+	if (is_admin() && ($wp_version >= '3.3')) {
+		$html = new simple_html_dom();
+		$html->load($buffer);
+		if ($textareas=$html->find('textarea[class=theEditor]')) {
+			foreach ($textareas as $textarea) {
+				ob_start();
+				wp_editor($textarea->innertext,$textarea->id);
+				$editor=ob_get_clean();
+				$textarea->outertext=$editor;
+			}
+		}
+		return $html->__toString();
+	}
+	return $buffer;
 }
 
 function form_header() {
@@ -204,10 +225,11 @@ function form_header() {
 	echo '<link rel="stylesheet" type="text/css" href="' . FORM_URL . 'css/client.css" media="screen" />';
 	echo '<link rel="stylesheet" type="text/css" href="' . FORM_URL . 'css/integrated_view.css" media="screen" />';
 	echo '<script type="text/javascript" src="' . FORM_URL . 'js/jquery-ui-1.7.3.custom.min.js"></script>';
-	
 }
 
 function form_admin_header() {
+	global $wp_version;
+
 	global $form;
 	echo '<script type="text/javascript">';
 	echo "var formPageurl='admin.php?page=form&';";
@@ -216,12 +238,11 @@ function form_admin_header() {
 	echo "var wsCms='gn';";
 	echo '</script>';
 	echo '<link rel="stylesheet" type="text/css" href="' . FORM_URL . 'css/admin.css" media="screen" />';
+	echo '<link rel="stylesheet" type="text/css" href="' . FORM_URL . 'css/integrated_view.css" media="screen" />';
 	if (isset($form['output']['head']) && $form['output']['head']) {
 		echo $form['output']['head'];
-	} else {
-		echo '<link rel="stylesheet" type="text/css" href="' . FORM_URL . 'css/integrated_view.css" media="screen" />';
 	}
-	wp_tiny_mce( false, array( 'editor_selector' => 'theEditor' ) );
+	if ($wp_version < '3.3') wp_tiny_mce( false, array( 'editor_selector' => 'theEditor' ) );
 	echo '<script type="text/javascript" src="' . FORM_URL . 'js/jquery-ui-1.7.3.custom.min.js"></script>';
 
 }
@@ -300,6 +321,8 @@ function form_ajax() {
 
 function form_init()
 {
+	global $wp_version;
+
 	ob_start();
 	session_start();
 	if (is_admin() && isset($_GET['zf'])) {
@@ -309,8 +332,10 @@ function form_init()
 			wp_enqueue_script('prototype');
 			wp_enqueue_script('scriptaculous');
 		}
-		wp_enqueue_script(array('editor', 'thickbox', 'media-upload'));
-		wp_enqueue_style('thickbox');
+		if ($wp_version < '3.3') {
+			wp_enqueue_script(array('editor', 'thickbox', 'media-upload'));
+			wp_enqueue_style('thickbox');
+		}
 	}
 	wp_enqueue_script('jquery');
 }
@@ -330,5 +355,6 @@ function form_url($endpoint=true) {
 	if ($endpoint) $url.='api.php';
 	return $url;
 }
+
 
 

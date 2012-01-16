@@ -6,7 +6,7 @@
 <?php if ($controlpanelOptions) foreach ($controlpanelOptions as $value) {
 
 	$selected=false;
-	
+
 	if ($value['type'] == "text" || $value['type'] == "password") { ?>
 
 	<tr align="left">
@@ -28,10 +28,8 @@
 
 	<tr align="left">
 		<th scope="row"><?php echo $value['name']; ?>:</th>
-		<td><input name="<?php echo $value['id']; ?>" id="<?php echo $value['id']; ?>"
-			type="checkbox"
-			value="checked"
-			<?php if ( get_option( $value['id'] ) != "") { echo " checked"; } ?>
+		<td><input name="<?php echo $value['id']; ?>" id="<?php echo $value['id']; ?>" type="checkbox"
+			value="checked" <?php if ( get_option( $value['id'] ) != "") { echo " checked"; } ?>
 		/></td>
 
 	</tr>
@@ -47,11 +45,9 @@
 		<th scope="row"><?php echo $value['name']; ?>:</th>
 		<td><textarea name="<?php echo $value['id']; ?>" id="<?php echo $value['id']; ?>" cols="50"
 			rows="8"
-		/>
-		<?php if ( get_option( $value['id'] ) != "") { echo stripslashes (get_option( $value['id'] )); }
+		/> <?php if ( get_option( $value['id'] ) != "") { echo stripslashes (get_option( $value['id'] )); }
 		elseif (isset($value['std'])) { echo $value['std'];
-		} ?>
-</textarea></td>
+		} ?> </textarea></td>
 
 	</tr>
 	<tr>
@@ -84,7 +80,7 @@
 		<td><select name="<?php echo $value['id']; ?>" id="<?php echo $value['id']; ?>">
 		<?php foreach ($value['options'] as $key => $option) { ?>
 			<option value="<?php echo $key;?>"
-			<?php 
+			<?php
 			if (!$selected && get_option($value['id']) && (get_option( $value['id'] ) == $key)) { echo ' selected="selected"'; $selected=true; }
 			elseif (!$selected && !get_option($value['id']) && $value['std'] == $key) { echo ' selected="selected"'; $selected=true; }
 			?>
@@ -112,7 +108,7 @@
 		</td>
 	</tr>
 
-	<?php } 
+	<?php }
 } //end foreach
 ?>
 </table>
