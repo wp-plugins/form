@@ -4,11 +4,11 @@
  Plugin URI: http://www.zingiri.net
  Description: Create amazing web forms with ease.
  Author: Zingiri
- Version: 1.1.1
+ Version: 1.1.2
  Author URI: http://www.zingiri.net/
  */
 
-define("FORM_VERSION","1.1.1");
+define("FORM_VERSION","1.1.2");
 
 // Pre-2.6 compatibility for wp-content folder location
 if (!defined("WP_CONTENT_URL")) {
@@ -228,22 +228,23 @@ function form_header() {
 }
 
 function form_admin_header() {
-	global $wp_version;
+	global $wp_version,$form;
 
-	global $form;
-	echo '<script type="text/javascript">';
-	echo "var formPageurl='admin.php?page=form&';";
-	echo "var aphpsAjaxURL='".'?zf=ajax&ajax=1&form='."';";
-	echo "var aphpsURL='".form_url(false).'aphps/fwkfor/'."';";
-	echo "var wsCms='gn';";
-	echo '</script>';
-	echo '<link rel="stylesheet" type="text/css" href="' . FORM_URL . 'css/admin.css" media="screen" />';
-	echo '<link rel="stylesheet" type="text/css" href="' . FORM_URL . 'css/integrated_view.css" media="screen" />';
-	if (isset($form['output']['head']) && $form['output']['head']) {
-		echo $form['output']['head'];
+	if (isset($_REQUEST['page']) && ($_REQUEST['page']=='form')) {
+		echo '<script type="text/javascript">';
+		echo "var formPageurl='admin.php?page=form&';";
+		echo "var aphpsAjaxURL='".'?zf=ajax&ajax=1&form='."';";
+		echo "var aphpsURL='".form_url(false).'aphps/fwkfor/'."';";
+		echo "var wsCms='gn';";
+		echo '</script>';
+		echo '<link rel="stylesheet" type="text/css" href="' . FORM_URL . 'css/admin.css" media="screen" />';
+		echo '<link rel="stylesheet" type="text/css" href="' . FORM_URL . 'css/integrated_view.css" media="screen" />';
+		if (isset($form['output']['head']) && $form['output']['head']) {
+			echo $form['output']['head'];
+		}
+		if ($wp_version < '3.3') wp_tiny_mce( false, array( 'editor_selector' => 'theEditor' ) );
+		echo '<script type="text/javascript" src="' . FORM_URL . 'js/jquery-ui-1.7.3.custom.min.js"></script>';
 	}
-	if ($wp_version < '3.3') wp_tiny_mce( false, array( 'editor_selector' => 'theEditor' ) );
-	echo '<script type="text/javascript" src="' . FORM_URL . 'js/jquery-ui-1.7.3.custom.min.js"></script>';
 
 }
 function form_http($page="index") {
@@ -332,9 +333,11 @@ function form_init()
 			wp_enqueue_script('prototype');
 			wp_enqueue_script('scriptaculous');
 		}
-		if ($wp_version < '3.3') {
-			wp_enqueue_script(array('editor', 'thickbox', 'media-upload'));
-			wp_enqueue_style('thickbox');
+		if (isset($_REQUEST['page']) && ($_REQUEST['page']=='form')) {
+			if ($wp_version < '3.3') {
+				wp_enqueue_script(array('editor', 'thickbox', 'media-upload'));
+				wp_enqueue_style('thickbox');
+			}
 		}
 	}
 	wp_enqueue_script('jquery');
