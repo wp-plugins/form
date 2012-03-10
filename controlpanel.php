@@ -8,7 +8,7 @@ function form_options() {
             "type" => "heading",
 			"desc" => "This section customizes the way the Form Builder plugin works.");
 	$form_options[] = array("name" => "API Key",
-			"desc" => 'This is your auto-generated API key, it is uniquely linked to your web site, make sure to keep it in a safe place.',
+			"desc" => 'This is your auto-generated API key, it is uniquely linked to your web site '.home_url().', make sure to keep it in a safe place.',
 			"id" => $form_shortname."_key",
 			"type" => "text");
 	$form_options[] = array("name" => "License Key",
@@ -52,10 +52,13 @@ function form_add_admin() {
 function form_main() {
 	global $form;
 
+	require(dirname(__FILE__).'/includes/support-us.inc.php');
+	
 	if (!isset($_GET['zf'])) return form_admin();
 
 	echo '<div class="wrap">';
-	echo '<div id="form" style="position:relative;float:left;width:75%">';
+	zing_support_us_top('form-builder','form','form',FORM_VERSION,false,false,'Zingiri Form Builder');
+	echo '<div id="form" style="width:100%;min-height:400px;">';
 	if (isset($form['output']['messages']) && is_array($form['output']['messages']) && (count($form['output']['messages']) > 0)) {
 		echo '<div class="error">';
 		foreach ($form['output']['messages'] as $msg) {
@@ -65,15 +68,17 @@ function form_main() {
 	}
 	if (isset($form['output']['body'])) echo $form['output']['body'];
 	echo '</div>';
-	require(dirname(__FILE__).'/includes/support-us.inc.php');
-	zing_support_us('form','form','form',FORM_VERSION,false);
+	echo '<hr />';
+	echo 'If you need help, please check out our <a href="http://forums.zingiri.com/forumdisplay.php?fid=59" target="_blank">forums</a>.';
+	zing_support_us_bottom('form-builder','form','form',FORM_VERSION,false,false,'Zingiri Form Builder');
 	echo '</div>';
 }
 
 function form_admin() {
-
 	global $form_name, $form_shortname;
-
+	
+	require(dirname(__FILE__).'/includes/support-us.inc.php');
+	
 	$controlpanelOptions=form_options();
 
 	if ( isset($_REQUEST['install']) ) echo '<div id="message" class="updated fade"><p><strong>'.$form_name.' settings updated.</strong></p></div>';
@@ -81,7 +86,8 @@ function form_admin() {
 
 	?>
 <div class="wrap">
-<div id="cc-left" style="position: relative; float: left; width: 80%">
+<?php zing_support_us_top('form-builder','form','form',FORM_VERSION,false,false,'Zingiri Form Builder');?>
+<div id="cc-left" style="position: relative; float: left; width: 100%">
 <h2><b><?php echo $form_name; ?></b></h2>
 
 	<?php
@@ -110,10 +116,9 @@ function form_admin() {
 		echo '</textarea><hr />';
 	}
 	?>
-If you need help, please check out our forums at <a href="http://forums.zingiri.com" target="_blank">forums.zingiri.net</a>.	
+If you need help, please check out our <a href="http://forums.zingiri.com/forumdisplay.php?fid=59" target="_blank">forums</a>.	
 </div>
-<!-- end cc-left --> <?php
-require(dirname(__FILE__).'/includes/support-us.inc.php');
-zing_support_us('form','form','form',FORM_VERSION,false);
+<?php
+zing_support_us_bottom('form-builder','form','form',FORM_VERSION,false,false,'Zingiri Form Builder');
 }
 add_action('admin_menu', 'form_add_admin'); ?>

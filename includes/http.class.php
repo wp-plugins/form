@@ -23,6 +23,9 @@
 //fixed issue with redirect urls duplicating url path
 //added http return code
 //improvide error management
+//v2.01.11: improved debugging
+//v2.02.19: increased depth of $_POST parsing by one level
+//v2.03.10: increased depth of $_POST parsing by one more level
 
 if (!class_exists('zHttpRequest')) {
 	class zHttpRequest
@@ -279,8 +282,18 @@ if (!class_exists('zHttpRequest')) {
 							if (is_array($v2)) {
 								foreach ($v2 as $k3 => $v3) {
 									if ($post) $post.='&';
-									$post.=$k.'['.$k2.']'.'['.$k3.']'.'='.urlencode(stripslashes($v3));
-									$apost[$k.'['.$k2.']'.'['.$k3.']']=stripslashes($v3);
+									if (is_array($v3)) {
+										foreach ($v3 as $k4 => $v4) {
+											if (is_array($v4)) {
+												foreach ($v4 as $k5 => $v5) {
+													$apost[$k.'['.$k2.']'.'['.$k3.']'.'['.$k4.']'.'['.$k5.']']=stripslashes($v5);
+												}
+											} else $apost[$k.'['.$k2.']'.'['.$k3.']'.'['.$k4.']']=stripslashes($v4);
+										}
+									} else {
+										$post.=$k.'['.$k2.']'.'['.$k3.']'.'='.urlencode(stripslashes($v3));
+										$apost[$k.'['.$k2.']'.'['.$k3.']']=stripslashes($v3);
+									}
 								}
 							} else {
 								if ($post) $post.='&';

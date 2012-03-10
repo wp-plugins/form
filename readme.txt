@@ -1,10 +1,10 @@
 === Form Builder ===
 Contributors: zingiri
-Donate link: http://www.zingiri.net/donations
+Donate link: http://www.zingiri.com/donations
 Tags: form, forms
 Requires at least: 2.1.7
 Tested up to: 3.3.1
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 
 Create amazing web forms with ease. No scripts, no HTML, no coding. Just drag-and-drop the form elements to create your professional looking form.
 
@@ -20,17 +20,21 @@ The free version allows creation of one form, the Pro version of the plugin offe
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 3. Include the code [form ID] in any page to display the form with the selected ID.
 
-Please visit [Zingiri](http://www.zingiri.net/plugins-and-addons/form/#installation "Zingiri") for more information and support.
+Please visit [Zingiri](http://www.zingiri.com/plugins-and-addons/form-builder/#installation "Zingiri") for more information and support.
 
 == Frequently Asked Questions ==
 
-Please visit the [Zingiri Support Forums](http://forums.zingiri.net/forumdisplay.php?fid=60 "Zingiri Support Forum") for more information and support.
+Please visit the [Zingiri Support Forums](http://forums.zingiri.com/forumdisplay.php?fid=59 "Zingiri Support Forum") for more information and support.
 
 == Screenshots ==
 
-Screenshots will be coming soon [here](http://www.zingiri.net/plugins-and-addons/form/ "screenshots").
+Screenshots will be coming soon [here](http://www.zingiri.com/plugins-and-addons/form-builder/ "screenshots").
 
 == Changelog ==
+
+= 1.1.3 =
+* Fixed issue with http class not parsing post variables properly
+* Removed loading of news feed
 
 = 1.1.2 =
 * Only load admin javascript and styles on Bookings pages

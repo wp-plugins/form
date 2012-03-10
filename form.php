@@ -1,14 +1,14 @@
 <?php
 /*
  Plugin Name: Form Builder
- Plugin URI: http://www.zingiri.net
+ Plugin URI: http://www.zingiri.com
  Description: Create amazing web forms with ease.
  Author: Zingiri
- Version: 1.1.2
- Author URI: http://www.zingiri.net/
+ Version: 1.1.3
+ Author URI: http://www.zingiri.com/
  */
 
-define("FORM_VERSION","1.1.2");
+define("FORM_VERSION","1.1.3");
 
 // Pre-2.6 compatibility for wp-content folder location
 if (!defined("WP_CONTENT_URL")) {
