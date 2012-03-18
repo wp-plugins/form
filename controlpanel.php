@@ -62,12 +62,13 @@ function form_main() {
 	if (isset($form['output']['messages']) && is_array($form['output']['messages']) && (count($form['output']['messages']) > 0)) {
 		echo '<div class="error">';
 		foreach ($form['output']['messages'] as $msg) {
-			echo $msg.'<br />';
+			echo 'Form Builder: '.$msg.'<br />';
 		}
 		echo '</div>';
 	}
 	if (isset($form['output']['body'])) echo $form['output']['body'];
 	echo '</div>';
+	echo '<div style="clear:both"></div>';
 	echo '<hr />';
 	echo 'If you need help, please check out our <a href="http://forums.zingiri.com/forumdisplay.php?fid=59" target="_blank">forums</a>.';
 	zing_support_us_bottom('form-builder','form','form',FORM_VERSION,false,false,'Zingiri Form Builder');

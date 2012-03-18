@@ -4,7 +4,7 @@ Donate link: http://www.zingiri.com/donations
 Tags: form, forms
 Requires at least: 2.1.7
 Tested up to: 3.3.1
-Stable tag: 1.1.3
+Stable tag: 1.1.4
 
 Create amazing web forms with ease. No scripts, no HTML, no coding. Just drag-and-drop the form elements to create your professional looking form.
 
@@ -31,6 +31,13 @@ Please visit the [Zingiri Support Forums](http://forums.zingiri.com/forumdisplay
 Screenshots will be coming soon [here](http://www.zingiri.com/plugins-and-addons/form-builder/ "screenshots").
 
 == Changelog ==
+
+= 1.1.4 =
+* Replaced protoype/scriptaculous scripts with jQuery scripts
+* Fixed issue with date elements
+* Added uninstall hook
+* Remember API key after deactivation
+* Removed rules from control panel (for now)
 
 = 1.1.3 =
 * Fixed issue with http class not parsing post variables properly

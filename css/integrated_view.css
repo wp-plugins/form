@@ -466,9 +466,7 @@ div.calendar {
 }
 
 .zfimg {
-	height: 16px;
-	width: 16px;
-	/*align:absmiddle;*/ /*FIXME*/
+	vertical-align:middle;
 	margin: 0px;
 	padding: 0px;
 }
@@ -589,4 +587,9 @@ li.zfacestab {
 	position:relative;
 	clear:both;
 	text-align:center;
+}
+
+.aphps-list-table th {
+	padding-right:20px;
+	text-align:left;
 }

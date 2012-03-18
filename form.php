@@ -4,11 +4,11 @@
  Plugin URI: http://www.zingiri.com
  Description: Create amazing web forms with ease.
  Author: Zingiri
- Version: 1.1.3
+ Version: 1.1.4
  Author URI: http://www.zingiri.com/
  */
 
-define("FORM_VERSION","1.1.3");
+define("FORM_VERSION","1.1.4");
 
 // Pre-2.6 compatibility for wp-content folder location
 if (!defined("WP_CONTENT_URL")) {
@@ -44,6 +44,7 @@ add_filter('the_content', 'form_content', 10, 3);
 
 register_activation_hook(__FILE__,'form_activate');
 register_deactivation_hook(__FILE__,'form_deactivate');
+register_uninstall_hook(__FILE__,'form_uninstall');
 
 require_once(dirname(__FILE__) . '/includes/shared.inc.php');
 require_once(dirname(__FILE__) . '/includes/http.class.php');
@@ -85,24 +86,24 @@ function form_admin_notices() {
 }
 
 function form_activate() {
-	update_option('form_key',md5(time().sprintf(mt_rand(),'%10d')));
-
+	if (!get_option('form_key')) update_option('form_key',md5(time().sprintf(mt_rand(),'%10d')));
 	update_option("form_version",FORM_VERSION);
-
 }
 
 function form_deactivate() {
 	form_output('deactivate');
+}
 
-	delete_option('form_key');
-
+function form_uninstall() {
+	form_output('uninstall');
+	
 	$form_options=form_options();
 
 	delete_option('form_log');
 	foreach ($form_options as $value) {
 		delete_option( $value['id'] );
 	}
-
+	delete_option('form_key');
 	delete_option("form_log");
 	delete_option("form_ftp_user"); //legacy
 	delete_option("form_ftp_password"); //legacy
@@ -224,7 +225,7 @@ function form_header() {
 
 	echo '<link rel="stylesheet" type="text/css" href="' . FORM_URL . 'css/client.css" media="screen" />';
 	echo '<link rel="stylesheet" type="text/css" href="' . FORM_URL . 'css/integrated_view.css" media="screen" />';
-	echo '<script type="text/javascript" src="' . FORM_URL . 'js/jquery-ui-1.7.3.custom.min.js"></script>';
+	//echo '<script type="text/javascript" src="' . FORM_URL . 'js/jquery-ui-1.7.3.custom.min.js"></script>';
 }
 
 function form_admin_header() {
@@ -243,7 +244,7 @@ function form_admin_header() {
 			echo $form['output']['head'];
 		}
 		if ($wp_version < '3.3') wp_tiny_mce( false, array( 'editor_selector' => 'theEditor' ) );
-		echo '<script type="text/javascript" src="' . FORM_URL . 'js/jquery-ui-1.7.3.custom.min.js"></script>';
+		//echo '<script type="text/javascript" src="' . FORM_URL . 'js/jquery-ui-1.7.3.custom.min.js"></script>';
 	}
 
 }
@@ -326,12 +327,13 @@ function form_init()
 
 	ob_start();
 	session_start();
+	wp_enqueue_script('jquery');
 	if (is_admin() && isset($_GET['zf'])) {
 		$pg=$_GET['zf'];
 		form_output($pg);
 		if ($pg=='form_edit') {
-			wp_enqueue_script('prototype');
-			wp_enqueue_script('scriptaculous');
+			wp_enqueue_script(array('jquery-ui-core','jquery-ui-datepicker','jquery-ui-sortable'));
+			wp_enqueue_style('jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/flick/jquery-ui.css');
 		}
 		if (isset($_REQUEST['page']) && ($_REQUEST['page']=='form')) {
 			if ($wp_version < '3.3') {
@@ -339,8 +341,10 @@ function form_init()
 				wp_enqueue_style('thickbox');
 			}
 		}
+	} else {
+		wp_enqueue_script(array('jquery-ui-core','jquery-ui-datepicker'));
+		wp_enqueue_style('jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/flick/jquery-ui.css');
 	}
-	wp_enqueue_script('jquery');
 }
 
 function form_log($type=0,$msg='',$filename="",$linenum=0) {
