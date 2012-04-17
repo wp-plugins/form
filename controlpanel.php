@@ -8,7 +8,7 @@ function form_options() {
             "type" => "heading",
 			"desc" => "This section customizes the way the Form Builder plugin works.");
 	$form_options[] = array("name" => "API Key",
-			"desc" => 'This is your auto-generated API key, it is uniquely linked to your web site '.home_url().', make sure to keep it in a safe place.',
+			"desc" => 'This plugin uses remote web services to provide mailing list functionality. This API key has been automatically generated for you. Once you click on Install, the API key, in combination with your web site address <strong>'.home_url().'</strong> will create an account on our servers allowing the plugin to access the remote web services.<br />The combination of API key and your web site address uniquely identifes you so please make sure to keep it in a safe place.',
 			"id" => $form_shortname."_key",
 			"type" => "text");
 	$form_options[] = array("name" => "License Key",
@@ -19,7 +19,13 @@ function form_options() {
 			"desc" => "If you have problems with the plugin, activate the debug mode to generate a debug log for our support team",
 			"id" => $form_shortname."_debug",
 			"type" => "checkbox");
-
+	$form_options[]=array(  "name" => "Before you install",
+            "type" => "heading",
+			"desc" => '<div style="text-decoration:underline;display:inline;font-weight:bold">IMPORTANT:</div> Form Builder uses web services stored on Zingiri\'s servers. In doing so, personal data is collected and stored on our servers. 
+					This data includes amongst others your admin email address as this is used, together with the API key as a unique identifier for your account on Zingiri\'s servers.
+					We have a very strict <a href="http://www.zingiri.com/privacy-policy/" target="_blank">privacy policy</a> as well as <a href="http://www.zingiri.com/terms/" target="_blank">terms & conditions</a> governing data stored on our servers.
+					<div style="font-weight:bold;display:inline">By installing this plugin you accept these terms & conditions.</div>');
+	
 	return $form_options;
 }
 

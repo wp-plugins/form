@@ -4,7 +4,7 @@ Donate link: http://www.zingiri.com/donations
 Tags: form, forms
 Requires at least: 2.1.7
 Tested up to: 3.3.1
-Stable tag: 1.1.4
+Stable tag: 1.1.5
 
 Create amazing web forms with ease. No scripts, no HTML, no coding. Just drag-and-drop the form elements to create your professional looking form.
 
@@ -13,6 +13,8 @@ Create amazing web forms with ease. No scripts, no HTML, no coding. Just drag-an
 Create amazing web forms with ease. No scripts, no HTML, no coding. Just drag-and-drop the form elements to create your professional looking form.
 
 The free version allows creation of one form, the Pro version of the plugin offers unlimited forms.
+
+Note: Form Builder uses web services stored on Zingiri's servers, read more in the plugin's FAQ about what that means.
 
 == Installation ==
 
@@ -24,6 +26,15 @@ Please visit [Zingiri](http://www.zingiri.com/plugins-and-addons/form-builder/#i
 
 == Frequently Asked Questions ==
 
+= This plugin uses web services, what exactly does that mean? =
+Web services are simple way of delivering software solutions. Basically it means that the software & data is hosted on our secure servers and that you can access it from anywhere in the world. 
+No need to worry about backing up your data, managing systems, we do it for you.
+
+= What about data privacy? =
+Support Tickets Center uses web services stored on Zingiri's servers. In doing so, personal data is collected and stored on our servers. 
+This data includes amongst others your admin email address as this is used, together with the API key as a unique identifier for your account on Zingiri's servers. 
+We have a very strict [privacy policy](http://www.zingiri.com/privacy-policy/ "privacy policy") as well as [terms & conditions](http://www.zingiri.com/terms/ "terms & conditions") governing data stored on our servers.
+
 Please visit the [Zingiri Support Forums](http://forums.zingiri.com/forumdisplay.php?fid=59 "Zingiri Support Forum") for more information and support.
 
 == Screenshots ==
@@ -31,6 +42,9 @@ Please visit the [Zingiri Support Forums](http://forums.zingiri.com/forumdisplay
 Screenshots will be coming soon [here](http://www.zingiri.com/plugins-and-addons/form-builder/ "screenshots").
 
 == Changelog ==
+
+= 1.1.5 =
+* Updated readme.txt and settings page regarding the use of web services and data privacy policy
 
 = 1.1.4 =
 * Replaced protoype/scriptaculous scripts with jQuery scripts
