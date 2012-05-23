@@ -593,3 +593,8 @@ li.zfacestab {
 	padding-right:20px;
 	text-align:left;
 }
+
+/* Form */
+li.zfli {
+	list-style-type: none !important;
+}

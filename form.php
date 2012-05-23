@@ -4,11 +4,11 @@
  Plugin URI: http://www.zingiri.com
  Description: Create amazing web forms with ease.
  Author: Zingiri
- Version: 1.1.5
+ Version: 1.1.6
  Author URI: http://www.zingiri.com/
  */
 
-define("FORM_VERSION","1.1.5");
+define("FORM_VERSION","1.1.6");
 
 // Pre-2.6 compatibility for wp-content folder location
 if (!defined("WP_CONTENT_URL")) {
@@ -225,7 +225,6 @@ function form_header() {
 
 	echo '<link rel="stylesheet" type="text/css" href="' . FORM_URL . 'css/client.css" media="screen" />';
 	echo '<link rel="stylesheet" type="text/css" href="' . FORM_URL . 'css/integrated_view.css" media="screen" />';
-	//echo '<script type="text/javascript" src="' . FORM_URL . 'js/jquery-ui-1.7.3.custom.min.js"></script>';
 }
 
 function form_admin_header() {
@@ -244,7 +243,6 @@ function form_admin_header() {
 			echo $form['output']['head'];
 		}
 		if ($wp_version < '3.3') wp_tiny_mce( false, array( 'editor_selector' => 'theEditor' ) );
-		//echo '<script type="text/javascript" src="' . FORM_URL . 'js/jquery-ui-1.7.3.custom.min.js"></script>';
 	}
 
 }
@@ -358,7 +356,8 @@ function form_log($type=0,$msg='',$filename="",$linenum=0) {
 }
 
 function form_url($endpoint=true) {
-	$url='http://form.clientcentral.info/'; //URL end point for web services stored on Zingiri servers
+	//$url='http://form.clientcentral.info/'; //URL end point for web services stored on Zingiri servers
+	$url='http://mymac/form-builder/'; //URL end point for web services stored on Zingiri servers
 	if ($endpoint) $url.='api.php';
 	return $url;
 }

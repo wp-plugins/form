@@ -3,8 +3,8 @@ Contributors: zingiri
 Donate link: http://www.zingiri.com/donations
 Tags: form, forms
 Requires at least: 2.1.7
-Tested up to: 3.3.1
-Stable tag: 1.1.5
+Tested up to: 3.3.2
+Stable tag: 1.1.6
 
 Create amazing web forms with ease. No scripts, no HTML, no coding. Just drag-and-drop the form elements to create your professional looking form.
 
@@ -42,6 +42,20 @@ Please visit the [Zingiri Support Forums](http://forums.zingiri.com/forumdisplay
 Screenshots will be coming soon [here](http://www.zingiri.com/plugins-and-addons/form-builder/ "screenshots").
 
 == Changelog ==
+
+= 1.1.6 =
+* Fixed issue with password showing mandatory although fields are filled
+* Fixed rendering of UTF-8 characters in field labels 
+* Fixed issue with checkbox always defaulting to 'on'
+* Fixed issue with date defaulting to 1970
+* Updated css to force removal of bullets in form display
+* Removed form edit link in front end
+* Default column names to upper case
+* Post fix column names with id for uniqueness
+* Added verification on duplicate column names
+* Fixed issue with US vs Europe date formats for date field
+* Added time picker widget to Time element type
+* Removed europe_date element type and added option to select date format (US or Europe) to date element type
 
 = 1.1.5 =
 * Updated readme.txt and settings page regarding the use of web services and data privacy policy
