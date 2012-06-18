@@ -3,8 +3,8 @@ Contributors: zingiri
 Donate link: http://www.zingiri.com/donations
 Tags: form, forms
 Requires at least: 2.1.7
-Tested up to: 3.3.2
-Stable tag: 1.1.6
+Tested up to: 3.4
+Stable tag: 1.1.7
 
 Create amazing web forms with ease. No scripts, no HTML, no coding. Just drag-and-drop the form elements to create your professional looking form.
 
@@ -42,6 +42,11 @@ Please visit the [Zingiri Support Forums](http://forums.zingiri.com/forumdisplay
 Screenshots will be coming soon [here](http://www.zingiri.com/plugins-and-addons/form-builder/ "screenshots").
 
 == Changelog ==
+
+= 1.1.7 =
+* Updated allowed extensions to 'jpg','bmp','png','zip','pdf','gif','doc','xls','wav','jpeg','docx','ppt','pptx','mp3'
+* Fixed issue with wrong endpoint in forms
+* Checked compatibility with WP 3.4
 
 = 1.1.6 =
 * Fixed issue with password showing mandatory although fields are filled
