@@ -101,7 +101,7 @@
 
 	<tr valign="top">
 		<td colspan="2" style="text-align: left;">
-		<h3><?php echo $value['name']; ?></h2>
+		<h3><?php echo $value['name']; ?></h3>
 		</td>
 	</tr>
 	<tr>

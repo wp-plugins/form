@@ -4,11 +4,11 @@
  Plugin URI: http://www.zingiri.com
  Description: Create amazing web forms with ease.
  Author: Zingiri
- Version: 1.1.7
+ Version: 1.2.0
  Author URI: http://www.zingiri.com/
  */
 
-define("FORM_VERSION","1.1.7");
+define("FORM_VERSION","1.2.0");
 
 // Pre-2.6 compatibility for wp-content folder location
 if (!defined("WP_CONTENT_URL")) {
