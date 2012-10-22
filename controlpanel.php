@@ -89,7 +89,7 @@ function form_admin() {
 	$controlpanelOptions=form_options();
 
 	if ( isset($_REQUEST['install']) ) echo '<div id="message" class="updated fade"><p><strong>'.$form_name.' settings updated.</strong></p></div>';
-	if ( isset($_REQUEST['error']) ) echo '<div id="message" class="updated fade"><p>The following error occured: <strong>'.$_REQUEST['error'].'</strong></p></div>';
+	if ( isset($_REQUEST['error']) ) echo '<div id="message" class="updated fade"><p>The following error occured: <strong>'.form_sanitize($_REQUEST['error']).'</strong></p></div>';
 
 	?>
 <div class="wrap">
