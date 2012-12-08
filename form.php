@@ -4,11 +4,11 @@
  Plugin URI: http://www.zingiri.com
  Description: Create amazing web forms with ease.
  Author: Zingiri
- Version: 1.2.1
+ Version: 1.2.2
  Author URI: http://www.zingiri.com/
  */
 
-define("FORM_VERSION","1.2.1");
+define("FORM_VERSION","1.2.2");
 
 // Pre-2.6 compatibility for wp-content folder location
 if (!defined("WP_CONTENT_URL")) {
@@ -46,6 +46,7 @@ register_activation_hook(__FILE__,'form_activate');
 register_deactivation_hook(__FILE__,'form_deactivate');
 register_uninstall_hook(__FILE__,'form_uninstall');
 
+@include(dirname(__FILE__).'/source.inc.php');
 require_once(dirname(__FILE__) . '/includes/shared.inc.php');
 require_once(dirname(__FILE__) . '/includes/http.class.php');
 require_once(dirname(__FILE__) . '/controlpanel.php');
@@ -330,7 +331,7 @@ function form_init()
 		$pg=$_GET['zf'];
 		form_output($pg);
 		if ($pg=='form_edit') {
-			wp_enqueue_script(array('jquery-ui-core','jquery-ui-datepicker','jquery-ui-sortable'));
+			wp_enqueue_script(array('jquery-ui-core','jquery-ui-datepicker','jquery-ui-sortable','jquery-ui-tabs'));
 			wp_enqueue_style('jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/flick/jquery-ui.css');
 		}
 		if (isset($_REQUEST['page']) && ($_REQUEST['page']=='form')) {
@@ -340,7 +341,7 @@ function form_init()
 			}
 		}
 	} else {
-		wp_enqueue_script(array('jquery-ui-core','jquery-ui-datepicker'));
+		wp_enqueue_script(array('jquery-ui-core','jquery-ui-datepicker','jquery-ui-tabs'));
 		wp_enqueue_style('jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/flick/jquery-ui.css');
 	}
 }
@@ -356,7 +357,8 @@ function form_log($type=0,$msg='',$filename="",$linenum=0) {
 }
 
 function form_url($endpoint=true) {
-	$url='http://form.clientcentral.info/'; //URL end point for web services stored on Zingiri servers
+	if (defined('FORM_ENDPOINT')) $url=FORM_ENDPOINT;
+	else $url='http://form.clientcentral.info/'; //URL end point for web services stored on Zingiri servers
 	if ($endpoint) $url.='api.php';
 	return $url;
 }

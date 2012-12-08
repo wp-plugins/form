@@ -52,7 +52,7 @@ function form_add_admin() {
 
 	add_menu_page($form_name, $form_name, 'manage_options', 'form','form_main');
 	add_submenu_page('form', $form_name.' - Setup', 'Setup', 'manage_options', 'form', 'form_main');
-	add_submenu_page('form', $form_name.' - Form Builder', 'Form Builder', 'manage_options', 'form&zf=form_edit', 'form_main');
+	add_submenu_page('form', $form_name.' - Forms', 'Forms', 'manage_options', 'form&zf=form_edit', 'form_main');
 }
 
 function form_main() {
@@ -63,7 +63,6 @@ function form_main() {
 	if (!isset($_GET['zf'])) return form_admin();
 
 	echo '<div class="wrap">';
-	zing_support_us_top('form-builder','form','form',FORM_VERSION,false,false,'Zingiri Form Builder');
 	echo '<div id="form" style="width:100%;min-height:400px;">';
 	if (isset($form['output']['messages']) && is_array($form['output']['messages']) && (count($form['output']['messages']) > 0)) {
 		echo '<div class="error">';
@@ -96,7 +95,6 @@ function form_admin() {
 <?php zing_support_us_top('form-builder','form','form',FORM_VERSION,false,false,'Zingiri Form Builder');?>
 <div id="cc-left" style="position: relative; float: left; width: 100%">
 <h2><b><?php echo $form_name; ?></b></h2>
-
 	<?php
 	$form_version=get_option("form_version");
 	$submit='Update';
@@ -124,6 +122,7 @@ function form_admin() {
 	}
 	?>
 If you need help, please check out our <a href="http://forums.zingiri.com/forumdisplay.php?fid=59" target="_blank">forums</a>.	
+<br />Form Builder v<?php echo FORM_VERSION;?>
 </div>
 <?php
 zing_support_us_bottom('form-builder','form','form',FORM_VERSION,false,false,'Zingiri Form Builder');
