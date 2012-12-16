@@ -4,11 +4,11 @@
  Plugin URI: http://www.zingiri.com
  Description: Create amazing web forms with ease.
  Author: Zingiri
- Version: 1.2.2
+ Version: 1.3.0
  Author URI: http://www.zingiri.com/
  */
 
-define("FORM_VERSION","1.2.2");
+define("FORM_VERSION","1.3.0");
 
 // Pre-2.6 compatibility for wp-content folder location
 if (!defined("WP_CONTENT_URL")) {
@@ -97,7 +97,7 @@ function form_deactivate() {
 
 function form_uninstall() {
 	form_output('uninstall');
-	
+
 	$form_options=form_options();
 
 	delete_option('form_log');
@@ -137,10 +137,12 @@ function form_output($form_to_include='',$postVars=array()) {
 
 	$ajax=isset($_REQUEST['ajax']) ? $_REQUEST['ajax'] : false;
 
-	$http=form_http($form_to_include);
+	list($http,$reSubmit)=form_http($form_to_include);
+	//$http=form_http($form_to_include);
 	form_log('Notification','Call: '.$http);
 	//echo '<br />'.$http.'<br />';
-	$news = new zHttpRequest($http,'form');
+	$news = new formHttpRequest($http,'form');
+	$news->reSubmit=$reSubmit;
 	$news->noErrors=true;
 	$news->post=array_merge($news->post,$postVars);
 
@@ -224,8 +226,8 @@ function form_header() {
 	echo "var wsCms='gn';";
 	echo '</script>';
 
-	echo '<link rel="stylesheet" type="text/css" href="' . FORM_URL . 'css/client.css" media="screen" />';
-	echo '<link rel="stylesheet" type="text/css" href="' . FORM_URL . 'css/integrated_view.css" media="screen" />';
+	//echo '<link rel="stylesheet" type="text/css" href="' . FORM_URL . 'css/client.css" media="screen" />';
+	echo '<link rel="stylesheet" type="text/css" href="' . form_url(false) . 'aphps/fwkfor/css/integrated_view.css" media="screen" />';
 }
 
 function form_admin_header() {
@@ -239,7 +241,7 @@ function form_admin_header() {
 		echo "var wsCms='gn';";
 		echo '</script>';
 		echo '<link rel="stylesheet" type="text/css" href="' . FORM_URL . 'css/admin.css" media="screen" />';
-		echo '<link rel="stylesheet" type="text/css" href="' . FORM_URL . 'css/integrated_view.css" media="screen" />';
+		echo '<link rel="stylesheet" type="text/css" href="' . form_url(false) . 'aphps/fwkfor/css/integrated_view.css" media="screen" />';
 		if (isset($form['output']['head']) && $form['output']['head']) {
 			echo $form['output']['head'];
 		}
@@ -290,7 +292,7 @@ function form_http($page="index") {
 
 	if ($vars) $http.=$vars;
 
-	return $http;
+	return array($http,array('wp'=>urlencode(base64_encode(json_encode($wp)))));
 }
 
 function form_home() {

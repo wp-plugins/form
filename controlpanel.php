@@ -8,11 +8,11 @@ function form_options() {
             "type" => "heading",
 			"desc" => "This section customizes the way the Form Builder plugin works.");
 	$form_options[] = array("name" => "API Key",
-			"desc" => 'This plugin uses remote web services to provide mailing list functionality. This API key has been automatically generated for you. Once you click on Install, the API key, in combination with your web site address <strong>'.home_url().'</strong> will create an account on our servers allowing the plugin to access the remote web services.<br />The combination of API key and your web site address uniquely identifes you so please make sure to keep it in a safe place.',
+			"desc" => 'This plugin uses remote web services to provide mailing list functionality. This API key has been automatically generated for you. Once you click on Install, the API key will create an account on our servers allowing the plugin to access the remote web services.<br />The API key uniquely identifes you so please make sure to keep it in a safe place.',
 			"id" => $form_shortname."_key",
 			"type" => "text");
 	$form_options[] = array("name" => "License Key",
-			"desc" => 'If you wish to make use of the <strong>Form Builder Pro</strong> features, enter your license key here. Further details about Form Builder Pro will be announced soon.',
+			"desc" => 'If you wish to make use of the <strong>Form Builder Pro or Expert</strong> features, enter your license key here. Further details about Form Builder Pro and Expert can be found <a href="http://www.zingiri.com/form-builder/" target="_blank">here</a>.',
 			"id" => $form_shortname."_lic",
 			"type" => "text");
 	$form_options[] = array(	"name" => "Debug Mode",
@@ -75,7 +75,7 @@ function form_main() {
 	echo '</div>';
 	echo '<div style="clear:both"></div>';
 	echo '<hr />';
-	echo 'If you need help, please check out our <a href="http://forums.zingiri.com/forumdisplay.php?fid=59" target="_blank">forums</a>.';
+	echo 'If you need help, please check out our <a href="http://forums.zingiri.com/forumdisplay.php?fid=76" target="_blank">forums</a>.';
 	zing_support_us_bottom('form-builder','form','form',FORM_VERSION,false,false,'Zingiri Form Builder');
 	echo '</div>';
 }
@@ -121,7 +121,7 @@ function form_admin() {
 		echo '</textarea><hr />';
 	}
 	?>
-If you need help, please check out our <a href="http://forums.zingiri.com/forumdisplay.php?fid=59" target="_blank">forums</a>.	
+If you need help, please check out our <a href="http://forums.zingiri.com/forumdisplay.php?fid=76" target="_blank">forums</a>.	
 <br />Form Builder v<?php echo FORM_VERSION;?>
 </div>
 <?php
