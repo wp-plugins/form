@@ -25,12 +25,11 @@ function form_options() {
 					This data includes amongst others your admin email address as this is used, together with the API key as a unique identifier for your account on Zingiri\'s servers.
 					We have a very strict <a href="http://www.zingiri.com/privacy-policy/" target="_blank">privacy policy</a> as well as <a href="http://www.zingiri.com/terms/" target="_blank">terms & conditions</a> governing data stored on our servers.
 					<div style="font-weight:bold;display:inline">By installing this plugin you accept these terms & conditions.</div>');
-	
+
 	return $form_options;
 }
 
 function form_add_admin() {
-
 	global $form_name, $form_shortname, $form;
 
 	$form_options=form_options();
@@ -52,14 +51,23 @@ function form_add_admin() {
 
 	add_menu_page($form_name, $form_name, 'manage_options', 'form','form_main');
 	add_submenu_page('form', $form_name.' - Setup', 'Setup', 'manage_options', 'form', 'form_main');
-	add_submenu_page('form', $form_name.' - Forms', 'Forms', 'manage_options', 'form&zf=form_edit', 'form_main');
+
+	if (get_option("form_version")) {
+		if (!isset($form['output']['menus']) && !isset($_SESSION['form']['menus'])) form_output(); //load menus
+		if (isset($form['output']['menus']) && is_array($form['output']['menus']) && (count($form['output']['menus']) > 0)) $_SESSION['form']['menus']=$form['output']['menus'];
+		if (isset($_SESSION['form']['menus'])) {
+			foreach ($_SESSION['form']['menus'] as $menu) {
+				add_submenu_page('form', $form_name.' - '.$menu[0], $menu[0], 'manage_options', $menu[1], 'form_main');
+			}
+		}
+	}
 }
 
 function form_main() {
 	global $form;
 
 	require(dirname(__FILE__).'/includes/support-us.inc.php');
-	
+
 	if (!isset($_GET['zf'])) return form_admin();
 
 	echo '<div class="wrap">';
@@ -82,9 +90,9 @@ function form_main() {
 
 function form_admin() {
 	global $form_name, $form_shortname;
-	
+
 	require(dirname(__FILE__).'/includes/support-us.inc.php');
-	
+
 	$controlpanelOptions=form_options();
 
 	if ( isset($_REQUEST['install']) ) echo '<div id="message" class="updated fade"><p><strong>'.$form_name.' settings updated.</strong></p></div>';
@@ -93,38 +101,44 @@ function form_admin() {
 	?>
 <div class="wrap">
 <?php zing_support_us_top('form-builder','form','form',FORM_VERSION,false,false,'Zingiri Form Builder');?>
-<div id="cc-left" style="position: relative; float: left; width: 100%">
-<h2><b><?php echo $form_name; ?></b></h2>
-	<?php
-	$form_version=get_option("form_version");
-	$submit='Update';
-	?>
-<form method="post"><?php require(dirname(__FILE__).'/includes/cpedit.inc.php')?>
+	<div id="cc-left" style="position: relative; float: left; width: 100%">
+		<h2>
+			<b><?php echo $form_name; ?> </b>
+		</h2>
+		<?php
+		$form_version=get_option("form_version");
+		$submit='Update';
+		?>
+		<form method="post">
+		<?php require(dirname(__FILE__).'/includes/cpedit.inc.php')?>
 
-<p class="submit"><input name="install" type="submit" value="<?php echo $submit;?>" /> <input
-	type="hidden" name="action" value="install"
-/></p>
-</form>
-<hr />
-	<?php
-	if ($form_version && get_option('form_debug')) {
-		echo '<h2 style="color: green;">Debug log</h2>';
-		echo '<textarea rows=10 cols=80>';
-		$r=get_option('form_log');
-		if ($r) {
-			$v=$r;
-			foreach ($v as $m) {
-				echo date('H:i:s',$m[0]).' '.$m[1].chr(13).chr(10);
-				echo $m[2].chr(13).chr(10);
+			<p class="submit">
+				<input name="install" type="submit" value="<?php echo $submit;?>" />
+				<input type="hidden" name="action" value="install" />
+			</p>
+		</form>
+		<hr />
+		<?php
+		if ($form_version && get_option('form_debug')) {
+			echo '<h2 style="color: green;">Debug log</h2>';
+			echo '<textarea rows=10 cols=80>';
+			$r=get_option('form_log');
+			if ($r) {
+				$v=$r;
+				foreach ($v as $m) {
+					echo date('H:i:s',$m[0]).' '.$m[1].chr(13).chr(10);
+					echo $m[2].chr(13).chr(10);
+				}
 			}
+			echo '</textarea><hr />';
 		}
-		echo '</textarea><hr />';
-	}
-	?>
-If you need help, please check out our <a href="http://forums.zingiri.com/forumdisplay.php?fid=76" target="_blank">forums</a>.	
-<br />Form Builder v<?php echo FORM_VERSION;?>
-</div>
-<?php
-zing_support_us_bottom('form-builder','form','form',FORM_VERSION,false,false,'Zingiri Form Builder');
+		?>
+		If you need help, please check out our <a
+			href="http://forums.zingiri.com/forumdisplay.php?fid=76"
+			target="_blank">forums</a>. <br />Form Builder v
+			<?php echo FORM_VERSION;?>
+	</div>
+	<?php
+	zing_support_us_bottom('form-builder','form','form',FORM_VERSION,false,false,'Zingiri Form Builder');
 }
 add_action('admin_menu', 'form_add_admin'); ?>
