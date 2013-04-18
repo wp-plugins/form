@@ -1,6 +1,6 @@
 <?php
 function form_options() {
-	global $form_name,$form_shortname,$cc_login_type,$current_user;
+	global $form_name,$form_shortname,$cc_login_type,$current_user,$wp_roles;
 	$form_name = "Form Builder";
 	$form_shortname = "form";
 
@@ -26,6 +26,21 @@ function form_options() {
 					We have a very strict <a href="http://www.zingiri.com/privacy-policy/" target="_blank">privacy policy</a> as well as <a href="http://www.zingiri.com/terms/" target="_blank">terms & conditions</a> governing data stored on our servers.
 					<div style="font-weight:bold;display:inline">By installing this plugin you accept these terms & conditions.</div>');
 
+		//capabilities
+		/*
+	$allCaps=array();
+	foreach ($wp_roles->roles as $role) {
+		$allCaps=array_merge($allCaps,$role['capabilities']);
+	}
+	ksort($allCaps);
+	array_walk($allCaps,create_function('&$value,$key','$value=str_replace("_"," ",ucfirst($key));'));
+	$form_options[] = array(	"name" => "Admin capability",
+			"desc" => "Choose the required capability for managing settings, schedules and resources. It is recommended to use an admin type of capability, such as 'Manage options'",
+			"id" => $form_shortname."_admin_cap",
+			"options" => $allCaps,
+			"std" => 'manage_options',
+			"type" => "selectwithkey");
+	*/
 	return $form_options;
 }
 

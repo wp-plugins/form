@@ -4,7 +4,7 @@ Donate link: http://www.zingiri.com/donations
 Tags: form, forms
 Requires at least: 2.1.7
 Tested up to: 3.5.1
-Stable tag: 2.0.0
+Stable tag: 2.0.1
 
 Create amazing web forms with ease. No scripts, no HTML, no coding. Just drag-and-drop the form elements to create your professional looking form.
 
@@ -42,6 +42,10 @@ Please visit the [Zingiri Support Forums](http://forums.zingiri.com/forumdisplay
 Screenshots will be coming soon [here](http://www.zingiri.com/plugins-and-addons/form-builder/ "screenshots").
 
 == Changelog ==
+
+= 2.0.1 =
+* Fixed issue when moving plugin to different domain
+* Fixed issue with UTF-8
 
 = 2.0.0 =
 * Added payment gateways
