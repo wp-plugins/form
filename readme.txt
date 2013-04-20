@@ -43,6 +43,10 @@ Screenshots will be coming soon [here](http://www.zingiri.com/plugins-and-addons
 
 == Changelog ==
 
+= 2.0.2 =
+* Fixed issue with ordering of columns
+* Implemented workaround for IE & Chrome object iteration reordering issue
+
 = 2.0.1 =
 * Fixed issue when moving plugin to different domain
 * Fixed issue with UTF-8

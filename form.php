@@ -245,7 +245,7 @@ function form_admin_header() {
 		}
 		if ($wp_version < '3.3') wp_tiny_mce( false, array( 'editor_selector' => 'theEditor' ) );
 		echo '<script type="text/javascript">';
-		echo "var aphpsAjaxURL=ajaxurl+'?form=';";
+		echo "var aphpsAjaxURL=ajaxurl+'?action=aphps_ajax&form=';";
 		echo '</script>';
 	}
 
@@ -373,7 +373,6 @@ function form_url($endpoint=true) {
 add_action('wp_ajax_aphps_ajax', 'aphps_ajax_callback');
 
 function aphps_ajax_callback() {
-	//print_r($_REQUEST);
 	list($http,$reSubmit)=form_http('ajax');
 	//echo '<br />'.$http.'<br />';
 	$news = new formHttpRequest($http,'form');
