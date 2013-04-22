@@ -4,11 +4,11 @@
  Plugin URI: http://www.zingiri.com
  Description: Create amazing web forms with ease.
  Author: Zingiri
- Version: 2.0.1
+ Version: 2.1.0
  Author URI: http://www.zingiri.com/
  */
 
-define("FORM_VERSION","2.0.1");
+define("FORM_VERSION","2.1.0");
 
 // Pre-2.6 compatibility for wp-content folder location
 if (!defined("WP_CONTENT_URL")) {
@@ -153,7 +153,7 @@ function form_output($form_to_include='',$postVars=array()) {
 		return "A HTTP Error occured";
 	} else {
 		if ($ajax==1) {
-			ob_end_clean();
+			while (count(ob_get_status(true)) > 0) ob_end_clean();
 			$buffer=$news->DownloadToString();
 			if ($news->error && is_admin()) echo $news->errorMessage;
 			elseif ($news->error) echo 'The service is currently unavailable';
@@ -167,7 +167,7 @@ function form_output($form_to_include='',$postVars=array()) {
 			}
 			die();
 		} elseif ($ajax==2) {
-			ob_end_clean();
+			while (count(ob_get_status(true)) > 0) ob_end_clean();
 			$output=$news->DownloadToString();
 			if ($news->error && is_admin()) echo $news->errorMessage;
 			elseif ($news->error) echo 'The service is currently unavailable';
@@ -183,14 +183,24 @@ function form_output($form_to_include='',$postVars=array()) {
 			if ($news->error && is_admin()) echo $news->errorMessage;
 			elseif ($news->error) echo 'The service is currently unavailable';
 			else {
-				$form['output']=json_decode($buffer,true);
-				if (!$form['output']) {
-					$form['output']['body']=$buffer;
-					$form['output']['head']='';
+				if ($news->headers['content-type']=='text/csv') {
+					while (count(ob_get_status(true)) > 0) ob_end_clean();
+					header("Content-type: text/csv");
+					header("Cache-Control: no-store, no-cache");
+					header('Content-Disposition: '.$news->headers['content-disposition']);
+					$form['output']=json_decode($buffer,true);
+					echo $form['output']['data'];
+					die();
 				} else {
-					if (isset($form['output']['http_referer'])) $_SESSION['form']['http_referer']=$form['output']['http_referer'];
+					$form['output']=json_decode($buffer,true);
+					if (!$form['output']) {
+						$form['output']['body']=$buffer;
+						$form['output']['head']='';
+					} else {
+						if (isset($form['output']['http_referer'])) $_SESSION['form']['http_referer']=$form['output']['http_referer'];
+					}
+					$form['output']['body']=form_parser($form['output']['body']);
 				}
-				$form['output']['body']=form_parser($form['output']['body']);
 			}
 		}
 	}
@@ -291,6 +301,7 @@ function form_http($page="index") {
 	$wp['admin_email']=get_option('admin_email');
 	$wp['key']=get_option('form_key');
 	$wp['lang']=get_option('form_lang'); //get_bloginfo('language');
+	$wp['client_version']=FORM_VERSION;
 	$vars.=$and.'wp='.urlencode(base64_encode(json_encode($wp)));
 
 	if (isset($_SESSION['form']['http_referer'])) $vars.='&http_referer='.cc_urlencode($_SESSION['form']['http_referer']);
