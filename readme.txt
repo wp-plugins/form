@@ -46,6 +46,7 @@ Screenshots will be coming soon [here](http://www.zingiri.com/plugins-and-addons
 = 2.1.1 =
 * Fixed issue with UTF-8 encoding
 * Added option to change length of email field
+* Added spinner to display when doing ajax actions in admin back-end
 
 = 2.1.0 =
 * Fixed issue with ordering of columns
