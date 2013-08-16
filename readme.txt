@@ -4,7 +4,7 @@ Donate link: http://www.zingiri.com/donations
 Tags: form, forms
 Requires at least: 2.1.7
 Tested up to: 3.6
-Stable tag: 2.2.1
+Stable tag: 2.2.2
 
 Create amazing web forms with ease. No scripts, no HTML, no coding. Just drag-and-drop the form elements to create your professional looking form.
 
@@ -43,8 +43,11 @@ Screenshots will be coming soon [here](http://www.zingiri.com/plugins-and-addons
 
 == Changelog ==
 
+= 2.2.2 =
+* Fixed issue with form settings checkboxes being saved in 'on' status
+
 = 2.2.1 =
-* Verified compatibility with version 2.2.1
+* Verified compatibility with Wordpress v3.6
 
 = 2.2.0 =
 * Fixed issue with ajax spinner
