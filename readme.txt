@@ -3,8 +3,8 @@ Contributors: zingiri
 Donate link: http://www.zingiri.com/donations
 Tags: form, forms
 Requires at least: 2.1.7
-Tested up to: 3.6.1
-Stable tag: 2.2.3
+Tested up to: 3.7.1
+Stable tag: 2.2.4
 
 Create amazing web forms with ease. No scripts, no HTML, no coding. Just drag-and-drop the form elements to create your professional looking form.
 
@@ -42,6 +42,10 @@ Please visit the [Zingiri Support Forums](http://forums.zingiri.com/forumdisplay
 Screenshots will be coming soon [here](http://www.zingiri.com/plugins-and-addons/form-builder/ "screenshots").
 
 == Changelog ==
+
+= 2.2.4 =
+* Verified compatibility with WP 3.7.1
+* Fixed issue with export function only exporting 16 rows instead of all
 
 = 2.2.3 =
 * Fixed issues with sending confirmation emails
