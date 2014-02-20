@@ -1,10 +1,10 @@
 === Form Builder ===
 Contributors: zingiri
 Donate link: http://www.zingiri.com/donations
-Tags: form, forms
+Tags: form, forms, online form builder, web form, html form, survey, surveys, payment, registration, email forms, form builder, form creator, form generator, online form, online forms, web forms, create form, create forms
 Requires at least: 2.1.7
-Tested up to: 3.7.1
-Stable tag: 2.2.4
+Tested up to: 3.8.1
+Stable tag: 2.3.0
 
 Create amazing web forms with ease. No scripts, no HTML, no coding. Just drag-and-drop the form elements to create your professional looking form.
 
@@ -22,7 +22,7 @@ Note: Form Builder uses web services stored on Zingiri's servers, read more in t
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 3. Include the code [form ID] in any page to display the form with the selected ID.
 
-Please visit [Zingiri](http://www.zingiri.com/plugins-and-addons/form-builder/#installation "Zingiri") for more information and support.
+Please visit [Zingiri](http://www.zingiri.com/form-builder/#installation "Zingiri") for more information and support.
 
 == Frequently Asked Questions ==
 
@@ -31,17 +31,24 @@ Web services are simple way of delivering software solutions. Basically it means
 No need to worry about backing up your data, managing systems, we do it for you.
 
 = What about data privacy? =
-Support Tickets Center uses web services stored on Zingiri's servers. In doing so, personal data is collected and stored on our servers. 
-This data includes amongst others your admin email address as this is used, together with the API key as a unique identifier for your account on Zingiri's servers. 
+Zingiri Form Builder uses web services stored on Zingiri's servers. 
+In doing so, data entered via the forms you create is collected and stored on our servers. 
+Your admin email address, together with the API key listed here above is also recored as as a unique identifier for your account on Zingiri's servers. This data remains your property and Zingiri will not use nor make available for use any of this information without your permission. 
+The data is stored securely in a database and is only accessible to persons you have authorized to use Zingiri Form Builder. 
 We have a very strict [privacy policy](http://www.zingiri.com/privacy-policy/ "privacy policy") as well as [terms & conditions](http://www.zingiri.com/terms/ "terms & conditions") governing data stored on our servers.
 
 Please visit the [Zingiri Support Forums](http://forums.zingiri.com/forumdisplay.php?fid=59 "Zingiri Support Forum") for more information and support.
 
 == Screenshots ==
 
-Screenshots will be coming soon [here](http://www.zingiri.com/plugins-and-addons/form-builder/ "screenshots").
+Screenshots will be coming soon [here](http://www.zingiri.com/form-builder/ "screenshots").
 
 == Changelog ==
+
+= 2.3.0 =
+* Implemented new payment gateways framework
+* Added Paypal Express as checkout option
+* Verified compatibility with Wordpress 3.8.1
 
 = 2.2.4 =
 * Verified compatibility with WP 3.7.1

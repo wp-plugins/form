@@ -12,7 +12,7 @@ function form_options() {
 			"id" => $form_shortname."_key",
 			"type" => "text");
 	$form_options[] = array("name" => "License Key",
-			"desc" => 'If you wish to make use of the <strong>Form Builder Pro or Expert</strong> features, enter your license key here. Further details about Form Builder Pro and Expert can be found <a href="http://www.zingiri.com/form-builder/" target="_blank">here</a>.',
+			"desc" => 'If you wish to make use of the <strong>Form Builder Pro or Expert</strong> features, enter your license key here. Further details about Form Builder Pro and Expert can be found <a href="http://www.zingiri.com/form-builder/pricing-signup/" target="_blank">here</a>.',
 			"id" => $form_shortname."_lic",
 			"type" => "text");
 	$form_options[] = array(	"name" => "Debug Mode",
@@ -21,26 +21,13 @@ function form_options() {
 			"type" => "checkbox");
 	$form_options[]=array(  "name" => "Before you install",
             "type" => "heading",
-			"desc" => '<div style="text-decoration:underline;display:inline;font-weight:bold">IMPORTANT:</div> Form Builder uses web services stored on Zingiri\'s servers. In doing so, personal data is collected and stored on our servers. 
-					This data includes amongst others your admin email address as this is used, together with the API key as a unique identifier for your account on Zingiri\'s servers.
+			"desc" => '<div style="text-decoration:underline;display:inline;font-weight:bold">IMPORTANT:</div> Zingiri Form Builder uses web services stored on Zingiri\'s servers. In doing so, data entered via the forms you create is collected and stored on our servers. 
+					Your admin email address, together with the API key listed here above is also recored as as a unique identifier for your account on Zingiri\'s servers.
+					This data remains your property and Zingiri will not use nor make available for use any of this information without your permission.
+					The data is stored securely in a database and is only accessible to persons you have authorized to use Zingiri Form Builder.
 					We have a very strict <a href="http://www.zingiri.com/privacy-policy/" target="_blank">privacy policy</a> as well as <a href="http://www.zingiri.com/terms/" target="_blank">terms & conditions</a> governing data stored on our servers.
 					<div style="font-weight:bold;display:inline">By installing this plugin you accept these terms & conditions.</div>');
 
-		//capabilities
-		/*
-	$allCaps=array();
-	foreach ($wp_roles->roles as $role) {
-		$allCaps=array_merge($allCaps,$role['capabilities']);
-	}
-	ksort($allCaps);
-	array_walk($allCaps,create_function('&$value,$key','$value=str_replace("_"," ",ucfirst($key));'));
-	$form_options[] = array(	"name" => "Admin capability",
-			"desc" => "Choose the required capability for managing settings, schedules and resources. It is recommended to use an admin type of capability, such as 'Manage options'",
-			"id" => $form_shortname."_admin_cap",
-			"options" => $allCaps,
-			"std" => 'manage_options',
-			"type" => "selectwithkey");
-	*/
 	return $form_options;
 }
 

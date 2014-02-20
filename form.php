@@ -1,14 +1,14 @@
 <?php
 /*
  Plugin Name: Form Builder
- Plugin URI: http://www.zingiri.com
+ Plugin URI: http://www.zingiri.com/form-builder
  Description: Create amazing web forms with ease.
  Author: Zingiri
- Version: 2.2.4
+ Version: 2.3.0
  Author URI: http://www.zingiri.com/
  */
 
-define("FORM_VERSION","2.2.4");
+define("FORM_VERSION","2.3.0");
 
 // Pre-2.6 compatibility for wp-content folder location
 if (!defined("WP_CONTENT_URL")) {
@@ -234,8 +234,8 @@ function form_header() {
 	echo "var wsCms='gn';";
 	echo '</script>';
 
-	//echo '<link rel="stylesheet" type="text/css" href="' . FORM_URL . 'css/client.css" media="screen" />';
-	echo '<link rel="stylesheet" type="text/css" href="' . form_url(false) . 'aphps/fwkfor/css/integrated_view.css" media="screen" />';
+	echo '<link rel="stylesheet" type="text/css" href="' . FORM_URL . 'css/client.css" media="screen" />';
+	echo '<link rel="stylesheet" type="text/css" href="' . form_url(false) . 'lib/fwkfor/css/integrated_view.css" media="screen" />';
 }
 
 function form_admin_header() {
@@ -249,7 +249,7 @@ function form_admin_header() {
 		echo "var wsCms='gn';";
 		echo '</script>';
 		echo '<link rel="stylesheet" type="text/css" href="' . FORM_URL . 'css/admin.css" media="screen" />';
-		echo '<link rel="stylesheet" type="text/css" href="' . form_url(false) . 'aphps/fwkfor/css/integrated_view.css" media="screen" />';
+		//echo '<link rel="stylesheet" type="text/css" href="' . form_url(false) . 'aphps/fwkfor/css/integrated_view.css" media="screen" />';
 		if (isset($form['output']['head']) && $form['output']['head']) {
 			echo $form['output']['head'];
 		}

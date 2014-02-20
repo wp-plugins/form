@@ -12,7 +12,7 @@ if (!function_exists('zing_support_us')) {
 						<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>				
 					</div>
 					<div style="float:left;">
-						<fb:share-button href="http://www.zingiri.com/plugins-and-addons/<?php echo $shareName;?>/" type="button" >
+						<fb:share-button href="http://www.zingiri.com/<?php echo $shareName;?>/" type="button" >
 					</div>
 				</div>
 				<div style="clear:both"></div>
@@ -54,7 +54,7 @@ if (!function_exists('zing_support_us_top')) {
 						<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>				
 					</div>
 					<div style="float:right;">
-						<fb:share-button href="http://www.zingiri.com/plugins-and-addons/<?php echo $shareName;?>/" type="button" >
+						<fb:share-button href="http://www.zingiri.com/<?php echo $shareName;?>/" type="button" >
 					</div>
 				</div>
 				<div style="clear:both"></div>

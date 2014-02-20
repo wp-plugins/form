@@ -6,24 +6,6 @@
 	width:100%;
 }
 
-.currentDayBoxStyle {
-	font-size: smaller;
-	background-color: #DDCAF6;
-	text-align: center;
-}
-
-.dayBoxStyle {
-	font-size: smaller;
-	text-align: center;
-}
-
-.dayNamesStyle {
-	font-size: smaller;
-	text-align: center;
-	background-color: #F0F0F0;
-}
-
-
 .ui-datepicker { width: 17em; padding: .2em .2em 0; background: white;}
 .ui-datepicker .ui-datepicker-header { position:relative; padding:.2em 0; }
 .ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next { position:absolute; top: 2px; width: 1.8em; height: 1.8em; }
@@ -46,3 +28,8 @@
 .ui-datepicker .ui-datepicker-buttonpane { background-image: none; margin: .7em 0 0 0; padding:0 .2em; border-left: 0; border-right: 0; border-bottom: 0; }
 .ui-datepicker .ui-datepicker-buttonpane button { float: right; margin: .5em .2em .4em; cursor: pointer; padding: .2em .6em .3em .6em; width:auto; overflow:visible; }
 .ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current { float:left; }
+
+.gtwpay-payment-gateways a {
+	margin: 10px;
+}
+	
