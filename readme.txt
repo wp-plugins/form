@@ -3,8 +3,8 @@ Contributors: zingiri
 Donate link: http://www.zingiri.com/donations
 Tags: form, forms, online form builder, web form, html form, survey, surveys, payment, registration, email forms, form builder, form creator, form generator, online form, online forms, web forms, create form, create forms
 Requires at least: 2.1.7
-Tested up to: 3.8.1
-Stable tag: 2.3.0
+Tested up to: 3.8.2
+Stable tag: 2.3.1
 
 Create amazing web forms with ease. No scripts, no HTML, no coding. Just drag-and-drop the form elements to create your professional looking form.
 
@@ -44,6 +44,9 @@ Please visit the [Zingiri Support Forums](http://forums.zingiri.com/forumdisplay
 Screenshots will be coming soon [here](http://www.zingiri.com/form-builder/ "screenshots").
 
 == Changelog ==
+
+= 2.3.1 =
+* Verified compatibility with WP 3.8.2
 
 = 2.3.0 =
 * Implemented new payment gateways framework
