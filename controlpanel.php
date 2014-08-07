@@ -55,7 +55,7 @@ function form_add_admin() {
 	add_submenu_page('form', $form_name.' - Setup', 'Setup', 'manage_options', 'form', 'form_main');
 
 	if (get_option("form_version")) {
-		if (!isset($form['output']['menus']) && !isset($_SESSION['form']['menus'])) form_output(); //load menus
+		if (!isset($form['output']['menus']) && !isset($_SESSION['form']['menus'])) form_output('headers'); //load menus
 		if (isset($form['output']['menus']) && is_array($form['output']['menus']) && (count($form['output']['menus']) > 0)) $_SESSION['form']['menus']=$form['output']['menus'];
 		if (isset($_SESSION['form']['menus'])) {
 			foreach ($_SESSION['form']['menus'] as $menu) {

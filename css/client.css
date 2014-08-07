@@ -1,4 +1,4 @@
-#form input[type="text"].element.text {
+#form input[type="text"].element.text, #form select.element.text {
 	width:100%;
     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
 	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
