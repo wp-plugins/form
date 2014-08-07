@@ -4,11 +4,11 @@
  Plugin URI: http://www.zingiri.com/form-builder
  Description: Create amazing web forms with ease.
  Author: Zingiri
- Version: 2.3.1
+ Version: 2.4.0
  Author URI: http://www.zingiri.com/
  */
 
-define("FORM_VERSION","2.3.1");
+define("FORM_VERSION","2.4.0");
 
 // Pre-2.6 compatibility for wp-content folder location
 if (!defined("WP_CONTENT_URL")) {
@@ -118,7 +118,8 @@ function form_content($content) {
 	if (preg_match_all('/\[form(.*)\]/',$content,$matches)) {
 		$pg=isset($_REQUEST['zfaces']) ? $_REQUEST['zfaces'] : 'form';
 		$postVars=array();
-		if (!isset($_POST['formid']) && !isset($_POST['form'])) $postVars['formid']=$matches[1][0];
+		if (!isset($_POST['formid']) && !isset($_POST['form']) && is_numeric($matches[1][0])) $postVars['formid']=$matches[1][0];
+		if (!isset($_POST['formid']) && !isset($_POST['form']) && !is_numeric($matches[1][0])) $postVars['form']=trim($matches[1][0]);
 		if (!isset($_POST['action'])) $postVars['action']='add';
 		form_output($pg,$postVars);
 		$output='<div id="form">';
@@ -153,6 +154,7 @@ function form_output($form_to_include='',$postVars=array()) {
 		return "A HTTP Error occured";
 	} else {
 		if ($ajax==1) {
+			die('ajax==1');
 			while (count(ob_get_status(true)) > 0) ob_end_clean();
 			$buffer=$news->DownloadToString();
 			if ($news->error && is_admin()) echo $news->errorMessage;
@@ -167,6 +169,7 @@ function form_output($form_to_include='',$postVars=array()) {
 			}
 			die();
 		} elseif ($ajax==2) {
+			die('ajax==2');
 			while (count(ob_get_status(true)) > 0) ob_end_clean();
 			$output=$news->DownloadToString();
 			if ($news->error && is_admin()) echo $news->errorMessage;
@@ -229,8 +232,10 @@ function form_parser($buffer) {
 function form_header() {
 	echo '<script type="text/javascript">';
 	echo "var formPageurl='".form_home()."';";
-	echo "var aphpsAjaxURL='".'?zf=ajax&ajax=1&form='."';";
-	echo "var aphpsURL='".form_url(false).'aphps/fwkfor/'."';";
+	//echo "var aphpsAjaxURL='".'?zf=ajax&ajax=1&form='."';";
+	echo "var ajaxurl = '".admin_url('admin-ajax.php')."';";
+	echo "var aphpsAjaxURL=ajaxurl+'?action=aphps_ajax&form=';";
+	echo "var aphpsURL='".form_url(false).'lib/fwkfor/'."';";
 	echo "var wsCms='gn';";
 	echo '</script>';
 
@@ -244,12 +249,10 @@ function form_admin_header() {
 	if (isset($_REQUEST['page']) && ($_REQUEST['page']=='form')) {
 		echo '<script type="text/javascript">';
 		echo "var formPageurl='admin.php?page=form&';";
-		//echo "var aphpsAjaxURL='".'?zf=ajax&ajax=1&form='."';";
-		echo "var aphpsURL='".form_url(false).'aphps/fwkfor/'."';";
+		echo "var aphpsURL='".form_url(false).'lib/fwkfor/'."';";
 		echo "var wsCms='gn';";
 		echo '</script>';
 		echo '<link rel="stylesheet" type="text/css" href="' . FORM_URL . 'css/admin.css" media="screen" />';
-		//echo '<link rel="stylesheet" type="text/css" href="' . form_url(false) . 'aphps/fwkfor/css/integrated_view.css" media="screen" />';
 		if (isset($form['output']['head']) && $form['output']['head']) {
 			echo $form['output']['head'];
 		}
@@ -332,7 +335,7 @@ function form_home() {
 
 function form_ajax() {
 	global $form;
-	if (is_admin() && isset($_GET['zf'])) {
+	if (is_admin() && (isset($_GET['zf']) || isset($_REQUEST['zfaces']))) {
 		$pg=$_GET['zf'];
 		form_output($pg);
 	}
@@ -345,13 +348,11 @@ function form_init()
 	ob_start();
 	session_start();
 	wp_enqueue_script('jquery');
-	if (is_admin() && isset($_GET['zf'])) {
+	if (is_admin() && (isset($_GET['zf']) || isset($_REQUEST['zfaces']))) {
 		$pg=$_GET['zf'];
 		form_output($pg);
-		if ($pg=='form_edit') {
-			wp_enqueue_script(array('jquery-ui-core','jquery-ui-datepicker','jquery-ui-sortable','jquery-ui-tabs'));
-			wp_enqueue_style('jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/flick/jquery-ui.css');
-		}
+		wp_enqueue_script(array('jquery-ui-core','jquery-ui-datepicker','jquery-ui-sortable','jquery-ui-tabs','jquery-ui-dialog'));
+		wp_enqueue_style('jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/flick/jquery-ui.css');
 		if (isset($_REQUEST['page']) && ($_REQUEST['page']=='form')) {
 			if ($wp_version < '3.3') {
 				wp_enqueue_script(array('editor', 'thickbox', 'media-upload'));
@@ -382,14 +383,20 @@ function form_url($endpoint=true) {
 }
 
 add_action('wp_ajax_aphps_ajax', 'aphps_ajax_callback');
+add_action('wp_ajax_nopriv_aphps_ajax', 'aphps_ajax_callback');
+
+/*
+add_action('wp_ajax_bookings_ajax_backend', 'bookings_ajax_backend_callback');
+add_action('wp_ajax_aphps_ajax', 'bookings_ajax_backend_callback');
+add_action('wp_ajax_bookings_ajax_frontend', 'bookings_ajax_frontend_callback');
+add_action('wp_ajax_nopriv_bookings_ajax_frontend', 'bookings_ajax_frontend_callback');
+*/
 
 function aphps_ajax_callback() {
 	list($http,$reSubmit)=form_http('ajax');
-	//echo '<br />'.$http.'<br />';
 	$news = new formHttpRequest($http,'form');
 	$news->reSubmit=$reSubmit;
 	$news->noErrors=true;
-	//$news->post=array_merge($news->post,$postVars);
 
 	if (!$news->curlInstalled()) {
 		form_log('Error','CURL not installed');
@@ -402,7 +409,8 @@ function aphps_ajax_callback() {
 			$form['output']['body']=$buffer;
 			$form['output']['head']='';
 		}
-		echo $form['output']['body'];
+		if (isset($form['output']['body'])) echo $form['output']['body'];
+		else echo $buffer;
 	}
 	die(); // this is required to return a proper result
 }

@@ -3,8 +3,8 @@ Contributors: zingiri
 Donate link: http://www.zingiri.com/donations
 Tags: form, forms, online form builder, web form, html form, survey, surveys, payment, registration, email forms, form builder, form creator, form generator, online form, online forms, web forms, create form, create forms
 Requires at least: 2.1.7
-Tested up to: 3.8.2
-Stable tag: 2.3.1
+Tested up to: 3.9.1
+Stable tag: 2.4.0
 
 Create amazing web forms with ease. No scripts, no HTML, no coding. Just drag-and-drop the form elements to create your professional looking form.
 
@@ -37,13 +37,17 @@ Your admin email address, together with the API key listed here above is also re
 The data is stored securely in a database and is only accessible to persons you have authorized to use Zingiri Form Builder. 
 We have a very strict [privacy policy](http://www.zingiri.com/privacy-policy/ "privacy policy") as well as [terms & conditions](http://www.zingiri.com/terms/ "terms & conditions") governing data stored on our servers.
 
-Please visit the [Zingiri Support Forums](http://forums.zingiri.com/forumdisplay.php?fid=59 "Zingiri Support Forum") for more information and support.
+Please visit the [Support Forum](http://wordpress.org/support/plugin/form "Support Forum") for more information and support.
 
 == Screenshots ==
 
 Screenshots will be coming soon [here](http://www.zingiri.com/form-builder/ "screenshots").
 
 == Changelog ==
+
+= 2.4.0 =
+* Compatibiliy with WP 3.9.1
+* Various enhancements
 
 = 2.3.1 =
 * Verified compatibility with WP 3.8.2

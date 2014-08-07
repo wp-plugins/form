@@ -69,9 +69,8 @@ function form_main() {
 	global $form;
 
 	require(dirname(__FILE__).'/includes/support-us.inc.php');
-
-	if (!isset($_GET['zf'])) return form_admin();
-
+	if (!isset($_GET['zf']) && !isset($_REQUEST['zfaces'])) return form_admin();
+	
 	echo '<div class="wrap">';
 	echo '<div id="form" style="width:100%;min-height:400px;">';
 	if (isset($form['output']['messages']) && is_array($form['output']['messages']) && (count($form['output']['messages']) > 0)) {
@@ -85,7 +84,7 @@ function form_main() {
 	echo '</div>';
 	echo '<div style="clear:both"></div>';
 	echo '<hr />';
-	echo 'If you need help, please check out our <a href="http://forums.zingiri.com/forumdisplay.php?fid=76" target="_blank">forums</a>.';
+	echo 'If you need help, please check out our <a href="http://wordpress.org/support/plugin/form" target="_blank">forums</a>.';
 	zing_support_us_bottom('form-builder','form','form',FORM_VERSION,false,false,'Zingiri Form Builder');
 	echo '</div>';
 }
@@ -136,7 +135,7 @@ function form_admin() {
 		}
 		?>
 		If you need help, please check out our <a
-			href="http://forums.zingiri.com/forumdisplay.php?fid=76"
+			href="http://wordpress.org/support/plugin/form"
 			target="_blank">forums</a>. <br />Form Builder v
 			<?php echo FORM_VERSION;?>
 	</div>
