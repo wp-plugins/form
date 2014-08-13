@@ -4,18 +4,10 @@
  * Plugin URI: http://www.zingiri.com/form-builder 
  * Description: Create amazing web forms with ease. 
  * Author: Zingiri 
- * Version: 2.4.1
+ * Version: 2.4.2
  * Author URI: http://www.zingiri.com/
  */
-define("FORM_VERSION", "2.4.1");
-
-// Pre-2.6 compatibility for wp-content folder location
-if (!defined("WP_CONTENT_URL")) {
-	define("WP_CONTENT_URL", get_option("siteurl") . "/wp-content");
-}
-if (!defined("WP_CONTENT_DIR")) {
-	define("WP_CONTENT_DIR", ABSPATH . "wp-content");
-}
+define("FORM_VERSION", form_version());
 
 if (!defined("FORM_PLUGIN")) {
 	$form_plugin=str_replace(realpath(dirname(__FILE__) . '/..'), "", dirname(__FILE__));
@@ -334,7 +326,7 @@ function form_init() {
 	if (is_admin() && (isset($_GET['zf']) || isset($_REQUEST['zfaces']))) {
 		$pg=$_GET['zf'];
 		form_output($pg);
-		wp_enqueue_script(array('jquery-ui-core','jquery-ui-datepicker','jquery-ui-sortable','jquery-ui-tabs','jquery-ui-dialog'));
+		wp_enqueue_script(array('jquery-ui-core','jquery-ui-datepicker','jquery-ui-sortable','jquery-ui-tabs','jquery-ui-dialog','jquery-ui-menu'));
 		wp_enqueue_style('jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/flick/jquery-ui.css');
 		if (isset($_REQUEST['page']) && ($_REQUEST['page'] == 'form')) {
 			if ($wp_version < '3.3') {
@@ -392,3 +384,9 @@ function aphps_ajax_callback() {
 	die(); // this is required to return a proper result
 }
 
+function form_version($tag='Stable tag') {
+	$trunk_readme=file(dirname(__FILE__) . '/readme.txt');
+	foreach ($trunk_readme as $i => $line)
+		if (substr_count($line, $tag . ': ') > 0) return trim(substr($line, strpos($line, $tag . ': ') + strlen($tag) + 2));
+	return NULL;
+}
