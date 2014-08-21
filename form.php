@@ -4,7 +4,7 @@
  * Plugin URI: http://www.zingiri.com/form-builder 
  * Description: Create amazing web forms with ease. 
  * Author: Zingiri 
- * Version: 2.4.2
+ * Version: 2.4.3
  * Author URI: http://www.zingiri.com/
  */
 define("FORM_VERSION", form_version());
@@ -24,12 +24,8 @@ define("FORM_URL", WP_CONTENT_URL . "/plugins/" . FORM_PLUGIN . "/");
 
 $form_version=get_option("form_version");
 add_action("init", "form_init");
-//if (!is_admin() && isset($_GET['ajax']) && ($_GET['ajax'] == 1)) {
-//	add_action("init", "form_ajax");
-//} else {
-	add_action('admin_head', 'form_admin_header');
-	add_action('wp_head', 'form_header');
-//}
+add_action('admin_head', 'form_admin_header');
+add_action('wp_head', 'form_header');
 add_action('admin_notices', 'form_admin_notices');
 add_filter('the_content', 'form_content', 10, 3);
 

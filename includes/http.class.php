@@ -217,19 +217,12 @@ class formHttpRequest {
 					$c=count($file['tmp_name']);
 					for($i=0; $i < $c; $i++) {
 						if ($file['tmp_name'][$i]) {
-							$tempDir=dirname($file['tmp_name'][$i]).'/';
-							$newfile=$tempDir. $file['name'][$i];
-							$newfiles[]=$newfile;
-							copy($file['tmp_name'][$i], $newfile);
-							if ($file['tmp_name'][$i]) $this->post[$name][$i]='@' . $newfile . $this->mimeType($newfile);
+							if ($file['tmp_name'][$i]) $this->post[$name][$i]='@' . $file['tmp_name'][$i] . $this->mimeType($file['tmp_name'][$i]).';filename='.$file['name'][$i];
 						}
 					}
 				} elseif ($file['tmp_name']) {
-					$tempDir=dirname($file['tmp_name']).'/';
-					$newfile=$tempDir . $file['name'];
-					$newfiles[]=$newfile;
-					copy($file['tmp_name'], $newfile);
-					if ($file['tmp_name']) $this->post[$name]='@' . $newfile . $this->mimeType($newfile);
+					$newfiles[]=$file['tmp_name'];
+					if ($file['tmp_name']) $this->post[$name]='@' . $file['tmp_name'] . $this->mimeType($file['tmp_name']).';filename='.$file['name'];
 				}
 			}
 		}
