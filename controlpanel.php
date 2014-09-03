@@ -72,7 +72,7 @@ function form_main() {
 	if (!isset($_GET['zf']) && !isset($_REQUEST['zfaces'])) return form_admin();
 	
 	echo '<div class="wrap">';
-	echo '<div id="form" style="width:100%;min-height:400px;">';
+	echo '<div id="form" style="width:100%;min-height:400px;" class="aphps">';
 	if (isset($form['output']['messages']) && is_array($form['output']['messages']) && (count($form['output']['messages']) > 0)) {
 		echo '<div class="error">';
 		foreach ($form['output']['messages'] as $msg) {

@@ -4,7 +4,7 @@
  * Plugin URI: http://www.zingiri.com/form-builder 
  * Description: Create amazing web forms with ease. 
  * Author: Zingiri 
- * Version: 2.4.3
+ * Version: 2.4.4
  * Author URI: http://www.zingiri.com/
  */
 define("FORM_VERSION", form_version());
@@ -111,7 +111,7 @@ function form_content($content) {
 		if (!isset($_POST['formid']) && !isset($_POST['form']) && !is_numeric($matches[1][0])) $postVars['form']=trim($matches[1][0]);
 		if (!isset($_POST['action'])) $postVars['action']='add';
 		form_output($pg, $postVars);
-		$output='<div id="form">';
+		$output='<div id="form" class="aphps">';
 		$output.=$form['output']['body'];
 		$output.='</div>';
 		$content=str_replace($matches[0][0], $output, $content);
@@ -267,7 +267,7 @@ function form_http($page="index") {
 	$wp['pluginurl']=FORM_URL;
 	if (is_admin()) {
 		$wp['mode']='b';
-		$wp['pageurl']='admin.php?page=form&zf=form_edit&';
+		$wp['pageurl']='admin.php?page=form&';
 	} else {
 		$wp['mode']='f';
 		$wp['pageurl']=form_home();
@@ -308,7 +308,7 @@ function form_home() {
 function form_ajax() {
 	global $form;
 	if (is_admin() && (isset($_GET['zf']) || isset($_REQUEST['zfaces']))) {
-		$pg=$_GET['zf'];
+		$pg=isset($_GET['zf']) ? $_GET['zf'] : '';
 		form_output($pg);
 	}
 }
@@ -320,7 +320,7 @@ function form_init() {
 	session_start();
 	wp_enqueue_script('jquery');
 	if (is_admin() && (isset($_GET['zf']) || isset($_REQUEST['zfaces']))) {
-		$pg=$_GET['zf'];
+		$pg=isset($_GET['zf']) ? $_GET['zf'] : '';
 		form_output($pg);
 		wp_enqueue_script(array('jquery-ui-core','jquery-ui-datepicker','jquery-ui-sortable','jquery-ui-tabs','jquery-ui-dialog','jquery-ui-menu'));
 		wp_enqueue_style('jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/flick/jquery-ui.css');

@@ -4,7 +4,7 @@ Donate link: http://www.zingiri.com/donations
 Tags: form, forms, online form builder, web form, html form, survey, surveys, payment, registration, email forms, form builder, form creator, form generator, online form, online forms, web forms, create form, create forms
 Requires at least: 2.1.7
 Tested up to: 3.9.2
-Stable tag: 2.4.3
+Stable tag: 2.4.4
 
 Create amazing web forms with ease. No scripts, no HTML, no coding. Just drag-and-drop the form elements to create your professional looking form.
 
@@ -44,6 +44,9 @@ Please visit the [Support Forum](http://wordpress.org/support/plugin/form "Suppo
 Screenshots will be coming soon [here](http://www.zingiri.com/form-builder/ "screenshots").
 
 == Changelog ==
+
+= 2.4.4 =
+* Various minor improvements
 
 = 2.4.3 =
 * Fixed potential security issue
