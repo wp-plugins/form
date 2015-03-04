@@ -4,7 +4,7 @@
  * Plugin URI: http://www.zingiri.com/form-builder 
  * Description: Create amazing web forms with ease. 
  * Author: Zingiri 
- * Version: 2.4.4
+ * Version: 2.4.5
  * Author URI: http://www.zingiri.com/
  */
 define("FORM_VERSION", form_version());
@@ -282,7 +282,6 @@ function form_http($page="index") {
 	if (isset($_SESSION['form']['http_referer'])) $vars.='&http_referer=' . cc_urlencode($_SESSION['form']['http_referer']);
 	
 	if ($vars) $http.=$vars;
-	
 	return array($http,array('wp' => urlencode(base64_encode(json_encode($wp)))));
 }
 
@@ -348,7 +347,7 @@ function form_log($type=0, $msg='', $filename="", $linenum=0) {
 
 function form_url($endpoint=true) {
 	if (defined('FORM_ENDPOINT')) $url=FORM_ENDPOINT;
-	else $url='http://form.clientcentral.info/'; // URL end point for web services stored on Zingiri servers
+	else $url='http://form-us.zingiri.net/'; // URL end point for web services stored on Zingiri servers
 	if ($endpoint) $url.='api.php';
 	return $url;
 }
