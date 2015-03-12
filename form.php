@@ -4,7 +4,7 @@
  * Plugin URI: http://www.zingiri.com/form-builder 
  * Description: Create amazing web forms with ease. 
  * Author: Zingiri 
- * Version: 2.4.5
+ * Version: 2.4.6
  * Author URI: http://www.zingiri.com/
  */
 define("FORM_VERSION", form_version());
@@ -152,8 +152,9 @@ function form_output($form_to_include='', $postVars=array()) {
 				header("Content-type: text/csv");
 				header("Cache-Control: no-store, no-cache");
 				header('Content-Disposition: ' . $news->headers['content-disposition']);
-				$form['output']=json_decode($buffer, true);
-				echo $form['output']['data'];
+				echo $buffer;
+				//$form['output']=json_decode($buffer, true);
+				//echo $form['output']['data'];
 				die();
 			} else {
 				$form['output']=json_decode($buffer, true);
