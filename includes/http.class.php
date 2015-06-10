@@ -22,6 +22,7 @@ class formHttpRequest {
 	var $noErrors=false; // whether to trigger an error in case of a curl error
 	var $errorMessage;
 	var $reSubmit=array();
+	var $timeout=30;
 	
 	// constructor
 	function __construct($url="", $sid='', $repost=false) {
@@ -184,7 +185,8 @@ class formHttpRequest {
 		
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // return into a variable
 		curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
-		curl_setopt($ch, CURLOPT_TIMEOUT, 60); // times out after 10s
+		curl_setopt($ch, CURLOPT_TIMEOUT, $this->timeout);
+		curl_setopt($ch, CURLOPT_ENCODING, "gzip, deflate");
 		if ($this->_protocol == "https") {
 			if (file_exists($cainfo)) {
 				curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
@@ -282,7 +284,7 @@ class formHttpRequest {
 		}
 		
 		$data=curl_exec($ch); // run the whole process
-		
+
 		// remove temporary upload files
 		if (count($newfiles) > 0) {
 			foreach ($newfiles as $file) {
@@ -342,7 +344,7 @@ class formHttpRequest {
 			// echo '<br />redirect to:'.print_r($headers,true);
 			// echo '<br />path='.$this->_path;
 			$redir=$headers['location'];
-			if (substr($redir, 0, 1) == '?') $redir='api.php' . $redir;
+			if (substr($redir, 0, 1) == '?') $redir='index.php' . $redir;
 			if (strstr($redir, $this->_protocol . '://' . $this->_host . $this->_path)) { // do nothing
 			} elseif (strstr($this->_protocol . '://' . $this->_host . $redir, $this->_protocol . '://' . $this->_host . $this->_path)) $redir=$this->_protocol . '://' . $this->_host . $redir;
 			elseif (!strstr($redir, $this->_host)) $redir=$this->_protocol . '://' . $this->_host . $this->_path . $redir;

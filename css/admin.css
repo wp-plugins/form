@@ -1,30 +1,23 @@
-.cc-support-us {
-	border-radius: 3px 3px 3px 3px;
-	border-style: solid;
-	border-width: 1px;
-	background-color: #FFFFE0;
-	border-color: #E6DB55;
-	margin: 15px;
-	padding: 10px;
-	text-align:center;
+#zingiri-help {
+	width: 49%;
+	float:right;
 }
 
-.aphpsSpinner {
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	margin-left: -50px; /* half width of the spinner gif */
-	margin-top: -50px; /* half height of the spinner gif */
-	text-align:center;
-	z-index:1234;
-	overflow: auto;
-	width: 100px; /* width of the spinner gif */
-	height: 102px; /*hight of the spinner gif +2px to fix IE8 issue */
-}
-
-.zing_ws_page {
-	width: 98%;
-	background-color: #fff;
-	padding: 1%;
+#zingiri-help li {
+	display: inline;
 	float: left;
+	padding-right: 1em;
+}
+
+.cc-left {
+	position: relative;
+	float: left;
+	width: 49%;
+	margin-right: 2%;
+}
+
+.cc-right {
+	position: relative;
+	float: right;
+	width: 49%;
 }

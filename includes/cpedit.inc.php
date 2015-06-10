@@ -24,6 +24,23 @@
 		</td>
 	</tr>
 
+	<?php } elseif ($value['type'] == "info") { ?>
+
+	<tr align="left">
+		<th scope="row"><?php echo $value['name']; ?>:</th>
+		<td><input 
+			type="<?php echo $value['type']; ?>"
+			value="<?php echo $value['value']; ?>"
+			size="40" disabled="disabled"
+		/></td>
+
+	</tr>
+	<tr>
+		<td colspan=2><small><?php echo $value['desc']; ?> </small>
+		<hr />
+		</td>
+	</tr>
+
 	<?php } elseif ($value['type'] == "checkbox") { ?>
 
 	<tr align="left">
@@ -106,7 +123,7 @@
 	</tr>
 	<tr>
 		<td colspan=2>
-		<div style="color: red; margin: 0 0; font-size: smaller"><?php echo $value['desc']; ?></div>
+		<p class="description"><?php echo $value['desc']; ?></p>
 		<hr />
 		</td>
 	</tr>

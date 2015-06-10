@@ -1,39 +1,28 @@
 <?php
 /*
- * Plugin Name: Form Builder 
- * Plugin URI: http://www.zingiri.com/form-builder 
- * Description: Create amazing web forms with ease. 
- * Author: Zingiri 
- * Version: 2.4.6
+ * Plugin Name: Form Builder
+ * Plugin URI: http://www.zingiri.com/form-builder
+ * Description: Create amazing web forms with ease.
+ * Author: Zingiri
+ * Version: 3.0.0
  * Author URI: http://www.zingiri.com/
  */
 define("FORM_VERSION", form_version());
 
-if (!defined("FORM_PLUGIN")) {
-	$form_plugin=str_replace(realpath(dirname(__FILE__) . '/..'), "", dirname(__FILE__));
-	$form_plugin=substr($form_plugin, 1);
-	define("FORM_PLUGIN", $form_plugin);
-}
-
-if (!defined("BLOGUPLOADDIR")) {
-	$upload=wp_upload_dir();
-	define("BLOGUPLOADDIR", $upload['path']);
-}
-
-define("FORM_URL", WP_CONTENT_URL . "/plugins/" . FORM_PLUGIN . "/");
-
-$form_version=get_option("form_version");
 add_action("init", "form_init");
 add_action('admin_head', 'form_admin_header');
 add_action('wp_head', 'form_header');
 add_action('admin_notices', 'form_admin_notices');
 add_filter('the_content', 'form_content', 10, 3);
 
-register_activation_hook(__FILE__, 'form_activate');
 register_deactivation_hook(__FILE__, 'form_deactivate');
 register_uninstall_hook(__FILE__, 'form_uninstall');
 
-@include (dirname(__FILE__) . '/source.inc.php');
+$formRegions['us1']=array('Dallas, US (1)','formbuilder3.us1.zingiri.net');
+$formRegions['us2']=array('Dallas, US (2)','formbuilder3.us2.zingiri.net');
+$formRegions['eu1']=array('London, UK (1)','formbuilder3.eu1.zingiri.net');
+@include (dirname(__FILE__) . '/regions.php');
+
 require_once (dirname(__FILE__) . '/includes/shared.inc.php');
 require_once (dirname(__FILE__) . '/includes/http.class.php');
 require_once (dirname(__FILE__) . '/controlpanel.php');
@@ -54,7 +43,6 @@ function form_admin_notices() {
 	$upload=wp_upload_dir();
 	if (session_save_path() && !is_writable(session_save_path())) $errors[]='PHP sessions are not properly configured on your server, the sessions save path ' . session_save_path() . ' is not writable.';
 	if ($upload['error']) $errors[]=$upload['error'];
-	if (get_option('form_debug')) $warnings[]="Debug is active, once you finished debugging, it's recommended to turn this off";
 	if (phpversion() < '5') $warnings[]="You are running PHP version " . phpversion() . ". We recommend you upgrade to PHP 5.3 or higher.";
 	if (ini_get("zend.ze1_compatibility_mode")) $warnings[]="You are running PHP in PHP 4 compatibility mode. We recommend you turn this option off.";
 	if (!function_exists('curl_init')) $errors[]="You need to have cURL installed. Contact your hosting provider to do so.";
@@ -75,11 +63,6 @@ function form_admin_notices() {
 	return array('errors' => $errors,'warnings' => $warnings);
 }
 
-function form_activate() {
-	if (!get_option('form_key')) update_option('form_key', md5(time() . sprintf(mt_rand(), '%10d')));
-	update_option("form_version", FORM_VERSION);
-}
-
 function form_deactivate() {
 	form_output('deactivate');
 }
@@ -89,16 +72,15 @@ function form_uninstall() {
 	
 	$form_options=form_options();
 	
-	delete_option('form_log');
+	delete_option('form_log'); // legacy
 	foreach ($form_options as $value) {
 		delete_option($value['id']);
 	}
-	delete_option('form_key');
-	delete_option("form_log");
 	delete_option("form_ftp_user"); // legacy
 	delete_option("form_ftp_password"); // legacy
 	delete_option("form_version");
 	delete_option('form-support-us');
+	delete_option('form_debug'); // legacy
 }
 
 function form_content($content) {
@@ -125,11 +107,9 @@ function form_output($form_to_include='', $postVars=array()) {
 	global $wordpressPageName;
 	global $form_loaded;
 	
-	//$ajax=isset($_REQUEST['ajax']) ? $_REQUEST['ajax'] : false;
-	
 	list($http, $reSubmit)=form_http($form_to_include);
 	form_log('Notification', 'Call: ' . $http);
-	//echo '<br />'.$http.'<br />';
+	//echo '<br />' . $http . '<br />';
 	$news=new formHttpRequest($http, 'form');
 	$news->reSubmit=$reSubmit;
 	$news->noErrors=true;
@@ -153,8 +133,8 @@ function form_output($form_to_include='', $postVars=array()) {
 				header("Cache-Control: no-store, no-cache");
 				header('Content-Disposition: ' . $news->headers['content-disposition']);
 				echo $buffer;
-				//$form['output']=json_decode($buffer, true);
-				//echo $form['output']['data'];
+				// $form['output']=json_decode($buffer, true);
+				// echo $form['output']['data'];
 				die();
 			} else {
 				$form['output']=json_decode($buffer, true);
@@ -164,30 +144,9 @@ function form_output($form_to_include='', $postVars=array()) {
 				} else {
 					if (isset($form['output']['http_referer'])) $_SESSION['form']['http_referer']=$form['output']['http_referer'];
 				}
-				$form['output']['body']=form_parser($form['output']['body']);
 			}
 		}
 	}
-}
-
-if (!class_exists('simple_html_dom')) require (dirname(__FILE__) . '/includes/simple_html_dom.php');
-
-function form_parser($buffer) {
-	global $wp_version;
-	if (is_admin() && ($wp_version >= '3.3')) {
-		$html=new simple_html_dom();
-		$html->load($buffer);
-		if ($textareas=$html->find('textarea[class=theEditor]')) {
-			foreach ($textareas as $textarea) {
-				ob_start();
-				wp_editor($textarea->innertext, $textarea->id);
-				$editor=ob_get_clean();
-				$textarea->outertext=$editor;
-			}
-		}
-		return $html->__toString();
-	}
-	return $buffer;
 }
 
 function form_header() {
@@ -198,55 +157,26 @@ function form_header() {
 	echo "var aphpsURL='" . form_url(false) . 'lib/fwkfor/' . "';";
 	echo "var wsCms='gn';";
 	echo '</script>';
-	echo form_get_header();
-	echo '<link rel="stylesheet" type="text/css" href="' . FORM_URL . 'css/client.css" media="screen" />';
+	echo '<link rel="stylesheet" type="text/css" href="' . plugin_dir_url(__FILE__) . 'css/client.css" media="screen" />';
 	echo '<link rel="stylesheet" type="text/css" href="' . form_url(false) . 'lib/fwkfor/css/integrated_view.css" media="screen" />';
 }
 
 function form_admin_header() {
 	global $wp_version;
 	
-	if (isset($_REQUEST['page']) && ($_REQUEST['page'] == 'form')) {
-		echo '<script type="text/javascript">';
-		echo "var formPageurl='admin.php?page=form&';";
-		echo "var aphpsURL='" . form_url(false) . 'lib/fwkfor/' . "';";
-		echo "var wsCms='gn';";
-		echo '</script>';
-		echo '<link rel="stylesheet" type="text/css" href="' . FORM_URL . 'css/admin.css" media="screen" />';
-		echo form_get_header();
-		if ($wp_version < '3.3') wp_tiny_mce(false, array('editor_selector' => 'theEditor'));
-		echo '<script type="text/javascript">';
-		echo "var aphpsAjaxURL=ajaxurl+'?action=aphps_ajax&form=';";
-		echo '</script>';
-	}
-}
-
-function form_get_header() {
-	global $form;
-
-	if (isset($form['output']['head']) && $form['output']['head']) {
-		$_SESSION['form']['head']=$form['output']['head'];
-	}
-	
-	if (!isset($_SESSION['form']['head']) || !$_SESSION['form']['head']) {
-		if (!isset($form['output']['head']) || !$form['output']['head']) {
-			form_output('headers');
-		}
-		$_SESSION['form']['head']=$form['output']['head'];
-	}
-	return $_SESSION['form']['head'];
+	echo '<link rel="stylesheet" type="text/css" href="' . plugin_dir_url(__FILE__) . 'css/admin.css" media="screen" />';
 }
 
 function form_http($page="index") {
 	global $current_user;
 	
 	$vars="";
-	$http=form_url() . '?pg=' . $page;
+	$http=form_url(true) . '?zfaces=' . $page;
 	$and="&";
 	if (count($_GET) > 0) {
 		foreach ($_GET as $n => $v) {
 			if (!in_array($n, array('page'))) {
-				$vars.=$and . $n . '=' . cc_urlencode($v);
+				$vars.=$and . $n . '=' . urlencode($v);
 				$and="&";
 			}
 		}
@@ -265,7 +195,7 @@ function form_http($page="index") {
 	$wp['lic']=get_option('form_lic');
 	$wp['siteurl']=home_url();
 	$wp['sitename']=get_bloginfo('name');
-	$wp['pluginurl']=FORM_URL;
+	$wp['pluginurl']=plugin_dir_url(__FILE__);
 	if (is_admin()) {
 		$wp['mode']='b';
 		$wp['pageurl']='admin.php?page=form&';
@@ -276,11 +206,11 @@ function form_http($page="index") {
 	$wp['time_format']=get_option('time_format');
 	$wp['admin_email']=get_option('admin_email');
 	$wp['key']=get_option('form_key');
-	$wp['lang']=get_option('form_lang'); // get_bloginfo('language');
+	$wp['lang']=get_bloginfo('language');
 	$wp['client_version']=FORM_VERSION;
 	$vars.=$and . 'wp=' . urlencode(base64_encode(json_encode($wp)));
 	
-	if (isset($_SESSION['form']['http_referer'])) $vars.='&http_referer=' . cc_urlencode($_SESSION['form']['http_referer']);
+	if (isset($_SESSION['form']['http_referer'])) $vars.='&http_referer=' . urlencode($_SESSION['form']['http_referer']);
 	
 	if ($vars) $http.=$vars;
 	return array($http,array('wp' => urlencode(base64_encode(json_encode($wp)))));
@@ -316,23 +246,17 @@ function form_ajax() {
 function form_init() {
 	global $wp_version;
 	
-	ob_start();
-	session_start();
-	wp_enqueue_script('jquery');
-	if (is_admin() && (isset($_GET['zf']) || isset($_REQUEST['zfaces']))) {
-		$pg=isset($_GET['zf']) ? $_GET['zf'] : '';
-		form_output($pg);
-		wp_enqueue_script(array('jquery-ui-core','jquery-ui-datepicker','jquery-ui-sortable','jquery-ui-tabs','jquery-ui-dialog','jquery-ui-menu'));
-		wp_enqueue_style('jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/flick/jquery-ui.css');
-		if (isset($_REQUEST['page']) && ($_REQUEST['page'] == 'form')) {
-			if ($wp_version < '3.3') {
-				wp_enqueue_script(array('editor','thickbox','media-upload'));
-				wp_enqueue_style('thickbox');
-			}
+	if (get_option("form_version") || (isset($_REQUEST['page']) && ($_REQUEST['page'] == 'form') && isset($_REQUEST['action']) && ('install' == $_REQUEST['action']))) {
+		ob_start();
+		session_start();
+		wp_enqueue_script('jquery');
+		if (is_admin() && isset($_REQUEST['page']) && ($_REQUEST['page'] == 'form')) {
+			form_output('saas_check');
+			//global $form;print_r($form);die();
+		} else {
+			wp_enqueue_script(array('jquery-ui-core','jquery-ui-datepicker','jquery-ui-tabs'));
+			wp_enqueue_style('jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/flick/jquery-ui.css');
 		}
-	} else {
-		wp_enqueue_script(array('jquery-ui-core','jquery-ui-datepicker','jquery-ui-tabs'));
-		wp_enqueue_style('jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/flick/jquery-ui.css');
 	}
 }
 
@@ -346,10 +270,12 @@ function form_log($type=0, $msg='', $filename="", $linenum=0) {
 	}
 }
 
+// URL end point for web services stored on Zingiri servers
 function form_url($endpoint=true) {
-	if (defined('FORM_ENDPOINT')) $url=FORM_ENDPOINT;
-	else $url='http://form-us.zingiri.net/'; // URL end point for web services stored on Zingiri servers
-	if ($endpoint) $url.='api.php';
+	global $formRegions;
+	$region=get_option('form_region');
+	$url='http://'.$formRegions[$region][1].'/';
+	if ($endpoint) $url.='index.php';
 	return $url;
 }
 
